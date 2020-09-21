@@ -4,14 +4,27 @@ using UnityEngine;
 
 public class Testing : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public float force;
+    public Propellers FrontLeft;
+    public Propellers FrontRight;
+    public Propellers BackRight;
+    public Propellers BackLeft;
+
+    private void FixedUpdate()
     {
-
-    }
-
-    private void Update()
-    {
-
+        if (Input.GetKey(KeyCode.W))
+        {
+            FrontLeft.AddForce = force;
+            FrontRight.AddForce = force;
+            BackLeft.AddForce = force;
+            BackRight.AddForce = force;
+        }
+        else if (Input.GetKey(KeyCode.S))
+        {
+            FrontLeft.AddForce = -force;
+            FrontRight.AddForce = -force;
+            BackLeft.AddForce = -force;
+            BackRight.AddForce = -force;
+        }
     }
 }

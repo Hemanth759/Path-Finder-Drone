@@ -31,12 +31,14 @@ public class CameraFollow : MonoBehaviour
 
     private void Start()
     {
-        this.transform.LookAt(target);
+        this.transform.rotation = target.rotation;
     }
 
     private void Update()
     {
-        Vector3 targetPosition = new Vector3(target.position.x, target.position.y + altitudeOffset, target.position.z - offset);
+        Vector3 targetPosition = target.position;
+        targetPosition = targetPosition - target.forward * offset;
+        targetPosition = targetPosition + Vector3.up * altitudeOffset;
         this.transform.position = Vector3.Lerp(this.transform.position, targetPosition, Time.deltaTime * smooth);
         this.transform.LookAt(target);
     }

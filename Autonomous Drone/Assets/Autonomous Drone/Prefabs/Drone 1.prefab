@@ -785,9 +785,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clockWise: 1
-  rotationSpeed: 55
-  baseForce: 25.525
-  baseRotationTorque: 50
+  rotationSpeed: 2000
+  baseForce: 24.525
+  baseRotationTorque: 3
 --- !u!1 &7878895274398409815
 GameObject:
   m_ObjectHideFlags: 0
@@ -1404,10 +1404,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d16fd62f22c17714f826959d8b9b2170, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clockWise: 1
-  rotationSpeed: 55
-  baseForce: 25.525
-  baseRotationTorque: 50
+  clockWise: 0
+  rotationSpeed: 2000
+  baseForce: 24.525
+  baseRotationTorque: 3
 --- !u!1 &7878895274398459209
 GameObject:
   m_ObjectHideFlags: 0
@@ -1851,10 +1851,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d16fd62f22c17714f826959d8b9b2170, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clockWise: 1
-  rotationSpeed: 55
-  baseForce: 25.525
-  baseRotationTorque: 50
+  clockWise: 0
+  rotationSpeed: 2000
+  baseForce: 24.525
+  baseRotationTorque: 3
 --- !u!1 &7878895274398471383
 GameObject:
   m_ObjectHideFlags: 0
@@ -2151,6 +2151,8 @@ GameObject:
   - component: {fileID: 7878895274404856529}
   - component: {fileID: 3128503161195815914}
   - component: {fileID: 3128503161195815915}
+  - component: {fileID: 2129990360}
+  - component: {fileID: 2129990361}
   m_Layer: 0
   m_Name: Drone 1
   m_TagString: Player
@@ -2186,7 +2188,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7878895274398478905}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.2
   m_Drag: 0.2
   m_AngularDrag: 0.1
   m_UseGravity: 1
@@ -2222,9 +2224,9 @@ MonoBehaviour:
   m_BrainParameters:
     VectorObservationSize: 1
     NumStackedVectorObservations: 1
-    VectorActionSize: 01000000
+    VectorActionSize: 04000000
     VectorActionDescriptions: []
-    VectorActionSpaceType: 0
+    VectorActionSpaceType: 1
   m_Model: {fileID: 0}
   m_InferenceDevice: 0
   m_BehaviorType: 0
@@ -2238,7 +2240,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7878895274398478905}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 58dc7a9a910b99649b4868d4e048990a, type: 3}
   m_Name: 
@@ -2251,7 +2253,39 @@ MonoBehaviour:
   frontRightPropeller: {fileID: 3128503161340345225}
   backLeftPropeller: {fileID: 3128503162166683575}
   backRightPropeller: {fileID: 3128503162067629690}
-  actionMultiplier: 20
+  actionMultiplier: 1
+--- !u!114 &2129990360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7878895274398478905}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DecisionPeriod: 5
+  TakeActionsBetweenDecisions: 1
+--- !u!114 &2129990361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7878895274398478905}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2a8909abb25dd64f830e3b76180dd14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  force: 1
+  propellers:
+  - {fileID: 3128503162166683575}
+  - {fileID: 3128503161340345225}
+  - {fileID: 3128503162358356059}
+  - {fileID: 3128503162067629690}
 --- !u!1 &7878895274398480941
 GameObject:
   m_ObjectHideFlags: 0
@@ -2787,9 +2821,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clockWise: 1
-  rotationSpeed: 55
-  baseForce: 25.525
-  baseRotationTorque: 50
+  rotationSpeed: 2000
+  baseForce: 24.525
+  baseRotationTorque: 3
 --- !u!1 &7878895274398513415
 GameObject:
   m_ObjectHideFlags: 0
