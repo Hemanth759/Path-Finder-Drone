@@ -269,4 +269,14 @@ public class DroneAgent : Agent
         this.frontRightPropeller.clockWise = !leftDiagonal;
         this.backLeftPropeller.clockWise = !leftDiagonal;
     }
+
+    /// <summary>
+    /// Called when the collider of the gameobject detects a collision with other object
+    /// </summary>
+    /// <param name="other"></param>
+    private void OnCollisionEnter(Collision other)
+    {
+        Debug.Log("collided with some object. resetting the scene");
+        EndEpisode();
+    }
 }

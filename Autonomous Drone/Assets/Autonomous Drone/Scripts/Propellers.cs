@@ -79,6 +79,7 @@ public class Propellers : MonoBehaviour
     {
         AddForceToDrone();
         AddTorqueToDrone();
+        ResetForce();
     }
 
     /// <summary>
@@ -87,6 +88,12 @@ public class Propellers : MonoBehaviour
     private void Update()
     {
         RotatePropeller();
+    }
+
+    void ResetForce()
+    {
+        currentForce = baseForce;
+        currentTorque = baseRotationTorque;
     }
 
     void AddTorqueToDrone()
