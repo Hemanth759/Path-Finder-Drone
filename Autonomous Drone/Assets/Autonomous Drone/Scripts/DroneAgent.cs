@@ -247,6 +247,10 @@ public class DroneAgent : Agent
         this.rb.useGravity = true;
         float scale = m_ResetParams.GetWithDefault("scale", 1f);
         this.transform.localScale = new Vector3(scale, scale, scale);
+        this.transform.position = new Vector3(0f, 5f, 0f);
+        this.rb.velocity = Vector3.zero;
+        this.rb.angularVelocity = Vector3.zero;
+        this.rb.rotation = Quaternion.identity;
     }
 
     /// <summary>
