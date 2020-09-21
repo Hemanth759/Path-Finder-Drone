@@ -36,11 +36,9 @@ public class DroneAgent : Agent
 
     public Propellers backRightPropeller;
 
-    [Space]
-
     [Header("Movement Variables")]
-    [Tooltip("The speed of the drone movement")]
-    public float moveSpeed;
+    [Tooltip("The amount the action should me multiplied")]
+    public float actionMultiplier;
 
     // private variables
     private Rigidbody rb;
@@ -79,6 +77,7 @@ public class DroneAgent : Agent
     {
         base.CollectObservations(sensor);
 
+        sensor.AddObservation(1f);
         // TODO: implement the observe the environment code
     }
 
@@ -96,6 +95,10 @@ public class DroneAgent : Agent
     {
         base.OnActionReceived(vectorAction);
 
+        this.frontLeftPropeller.AddForce = vectorAction[0] * actionMultiplier;
+        this.frontRightPropeller.AddForce = vectorAction[1] * actionMultiplier;
+        this.backLeftPropeller.AddForce = vectorAction[2] * actionMultiplier;
+        this.backLeftPropeller.AddForce = vectorAction[3] * actionMultiplier;
     }
 
     /// <summary>
@@ -106,8 +109,6 @@ public class DroneAgent : Agent
     /// <param name="actionsOut"></param>
     public override void Heuristic(float[] actionsOut)
     {
-        base.Heuristic(actionsOut);
-
         float altitude = 0f;      // +1 = gain altitude, -1 = lose altitude
         float yaw = 0f;         // +1 = turn left, -1 = turn right
         float pitch = 0f;       // +1 to tilt forward, -1 to tilt backward
