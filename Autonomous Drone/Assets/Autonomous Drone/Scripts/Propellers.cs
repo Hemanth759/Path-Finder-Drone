@@ -33,8 +33,8 @@ public class Propellers : MonoBehaviour
     {
         droneRb.AddForceAtPosition(this.transform.forward * Time.fixedDeltaTime, this.transform.position);
         if (this.clockWise)
-            droneRb.AddTorque(-droneRb.transform.up * Time.fixedDeltaTime);
-        else
             droneRb.AddTorque(droneRb.transform.up * Time.fixedDeltaTime);
+        else
+            droneRb.AddTorque(-droneRb.transform.up * Time.fixedDeltaTime);
     }
 }
