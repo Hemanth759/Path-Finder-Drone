@@ -1198,7 +1198,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d16fd62f22c17714f826959d8b9b2170, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clockWise: 0
+  clockWise: 1
 --- !u!1 &813626973
 GameObject:
   m_ObjectHideFlags: 0
@@ -1404,7 +1404,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d16fd62f22c17714f826959d8b9b2170, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clockWise: 0
+  clockWise: 1
 --- !u!1 &1139318145
 GameObject:
   m_ObjectHideFlags: 0
@@ -3182,6 +3182,57 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2133725889 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1593468685455714003, guid: f51e1a6cb75a702408314736b7b1cc28,
+    type: 3}
+  m_PrefabInstance: {fileID: 5773891650617140675}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2133725893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2133725889}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58dc7a9a910b99649b4868d4e048990a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agentParameters:
+    maxStep: 0
+  hasUpgradedFromAgentParameters: 1
+  MaxStep: 0
+  frontLeftPropeller: {fileID: 0}
+  frontRightPropeller: {fileID: 0}
+  backLeftPropeller: {fileID: 0}
+  backRightPropeller: {fileID: 0}
+  moveSpeed: 0
+--- !u!114 &2133725894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2133725889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d1c4e0b1822b495aa52bc52839ecb30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_BrainParameters:
+    VectorObservationSize: 1
+    NumStackedVectorObservations: 1
+    VectorActionSize: 01000000
+    VectorActionDescriptions: []
+    VectorActionSpaceType: 0
+  m_Model: {fileID: 0}
+  m_InferenceDevice: 0
+  m_BehaviorType: 1
+  m_BehaviorName: My Behavior
+  TeamId: 0
+  m_UseChildSensors: 1
 --- !u!1001 &5773891650617140675
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3299,4 +3350,8 @@ PrefabInstance:
     - {fileID: 1593468685465931413, guid: f51e1a6cb75a702408314736b7b1cc28, type: 3}
     - {fileID: 1593468685465816515, guid: f51e1a6cb75a702408314736b7b1cc28, type: 3}
     - {fileID: 1593468685465888577, guid: f51e1a6cb75a702408314736b7b1cc28, type: 3}
+    - {fileID: 1593468685467388055, guid: f51e1a6cb75a702408314736b7b1cc28, type: 3}
+    - {fileID: 1593468685467406197, guid: f51e1a6cb75a702408314736b7b1cc28, type: 3}
+    - {fileID: 1593468685467406367, guid: f51e1a6cb75a702408314736b7b1cc28, type: 3}
+    - {fileID: 1593468685467415549, guid: f51e1a6cb75a702408314736b7b1cc28, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f51e1a6cb75a702408314736b7b1cc28, type: 3}

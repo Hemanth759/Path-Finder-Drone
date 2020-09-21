@@ -12,6 +12,12 @@ public class Propellers : MonoBehaviour
     [Tooltip("The propeller rotation direction.")]
     public bool clockWise;
 
+    /// <summary>
+    /// The speed at which the propeller rotates.
+    /// </summary>
+    [Tooltip("Rotation speed of the propeller")]
+    public float rotationSpeed;
+
     // PRIVATE VARAIBLES
     /// <summary>
     /// The rigidbody of the drone
@@ -31,10 +37,22 @@ public class Propellers : MonoBehaviour
     /// </summary>
     private void FixedUpdate()
     {
+        RotatePropeller();
+        // MoveDrone();
+    }
+
+    void MoveDrone()
+    {
         droneRb.AddForceAtPosition(this.transform.forward * Time.fixedDeltaTime, this.transform.position);
         if (this.clockWise)
             droneRb.AddTorque(droneRb.transform.up * Time.fixedDeltaTime);
         else
             droneRb.AddTorque(-droneRb.transform.up * Time.fixedDeltaTime);
+    }
+
+    void RotatePropeller()
+    {
+        int clockWise = this.clockWise ? 1 : -1;
+        this.transform.Rotate(Vector3.forward, Time.fixedDeltaTime * this.rotationSpeed * clockWise);
     }
 }
