@@ -10,36 +10,41 @@ public class CameraFollow : MonoBehaviour
     /// </summary>
     [Tooltip("The amount of distance the cam should be from the target object")]
     [SerializeField]
-    private float offset;
+    private float offset = 5;
 
     /// <summary>
     /// The altitude of the camera relative to the target object
     /// </summary>
     [Tooltip("The altitude of the camera relative to the target object")]
     [SerializeField]
-    private float altitudeOffset;
+    private float altitudeOffset = 2;
 
     /// <summary>
     /// The smoothness of the movement of camera
     /// </summary>
     [Tooltip("The smoothness of the movement of camera")]
-    [Range(0f, 5f)]
+    [Range(0f, 25f)]
     [SerializeField]
-    private float smooth;
+    private float smooth = 10;
 
     /// <summary>
     /// The tranform of the target object
     /// </summary>
     [Tooltip("The tranform of the target object")]
     [SerializeField]
-    private Transform target;
+    private Transform target = null;
 
-
+    /// <summary>
+    /// Called when the object is initalized
+    /// </summary>
     private void Start()
     {
         this.transform.rotation = target.rotation;
     }
 
+    /// <summary>
+    /// Called right after the update method
+    /// </summary>
     private void LateUpdate()
     {
         // apply position of the camera

@@ -88,6 +88,9 @@ public class Propellers : MonoBehaviour
     private void Update()
     {
         RotatePropeller();
+        AddForceToDrone();
+        AddTorqueToDrone();
+        ResetForce();
     }
 
     void ResetForce()
