@@ -2152,7 +2152,6 @@ GameObject:
   - component: {fileID: 3128503161195815914}
   - component: {fileID: 3128503161195815915}
   - component: {fileID: 2129990360}
-  - component: {fileID: 2129990361}
   m_Layer: 0
   m_Name: Drone 1
   m_TagString: Player
@@ -2240,7 +2239,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7878895274398478905}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 58dc7a9a910b99649b4868d4e048990a, type: 3}
   m_Name: 
@@ -2266,26 +2265,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DecisionPeriod: 5
+  DecisionPeriod: 2
   TakeActionsBetweenDecisions: 1
---- !u!114 &2129990361
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7878895274398478905}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2a8909abb25dd64f830e3b76180dd14, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  force: 1
-  propellers:
-  - {fileID: 3128503162166683575}
-  - {fileID: 3128503161340345225}
-  - {fileID: 3128503162358356059}
-  - {fileID: 3128503162067629690}
 --- !u!1 &7878895274398480941
 GameObject:
   m_ObjectHideFlags: 0

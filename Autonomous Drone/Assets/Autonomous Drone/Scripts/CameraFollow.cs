@@ -4,42 +4,52 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-    /// <summary>
-    /// The tranform of the target object
-    /// </summary>
-    [Tooltip("The tranform of the target object")]
-    public Transform target;
 
     /// <summary>
     /// The amount of distance the cam should be from the target object
     /// </summary>
     [Tooltip("The amount of distance the cam should be from the target object")]
-    public float offset;
+    [SerializeField]
+    private float offset;
 
     /// <summary>
     /// The altitude of the camera relative to the target object
     /// </summary>
     [Tooltip("The altitude of the camera relative to the target object")]
-    public float altitudeOffset;
+    [SerializeField]
+    private float altitudeOffset;
 
     /// <summary>
     /// The smoothness of the movement of camera
     /// </summary>
     [Tooltip("The smoothness of the movement of camera")]
     [Range(0f, 5f)]
-    public float smooth;
+    [SerializeField]
+    private float smooth;
+
+    /// <summary>
+    /// The tranform of the target object
+    /// </summary>
+    [Tooltip("The tranform of the target object")]
+    [SerializeField]
+    private Transform target;
+
 
     private void Start()
     {
         this.transform.rotation = target.rotation;
     }
 
-    private void Update()
+    private void LateUpdate()
     {
+        // apply position of the camera
         Vector3 targetPosition = target.position;
         targetPosition = targetPosition - target.forward * offset;
         targetPosition = targetPosition + Vector3.up * altitudeOffset;
         this.transform.position = Vector3.Lerp(this.transform.position, targetPosition, Time.deltaTime * smooth);
-        this.transform.LookAt(target);
+
+        // apply rotation of the camera
+        Quaternion toRot = Quaternion.LookRotation(target.position - this.transform.position, target.up);
+        this.transform.rotation = Quaternion.Slerp(this.transform.rotation, toRot, smooth * Time.deltaTime);
     }
 }
