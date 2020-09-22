@@ -614,6 +614,10 @@ PrefabInstance:
       propertyPath: backRightProp
       value: 
       objectReference: {fileID: 1314806778}
+    - target: {fileID: 1626185096, guid: ac5a3c93f033b3549b538bc5705c0fc8, type: 3}
+      propertyPath: propellerForce
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7878895274398204241, guid: ac5a3c93f033b3549b538bc5705c0fc8,
         type: 3}
       propertyPath: m_LocalPosition.x
