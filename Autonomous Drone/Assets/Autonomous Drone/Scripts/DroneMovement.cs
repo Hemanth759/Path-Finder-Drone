@@ -5,9 +5,34 @@ using UnityEngine;
 public class DroneMovement : MonoBehaviour
 {
     // PUBLIC VARAIBLES
+    [Header("Propellers")]
+    /// <summary>
+    /// The front left propelller's PropellerMotion script of the drone
+    /// </summary>
+    [Tooltip("The front left propelller's PropellerMotion script of the drone")]
+    public PropellerMotion frontLeftProp;
 
+    /// <summary>
+    /// The front right propelller's PropellerMotion script of the drone
+    /// </summary>
+    [Tooltip("The front right propelller's PropellerMotion script of the drone")]
+    public PropellerMotion frontRightProp;
+
+    /// <summary>
+    /// The back left propelller's PropellerMotion script of the drone
+    /// </summary>
+    [Tooltip("The back left propelller's PropellerMotion script of the drone")]
+    public PropellerMotion backLeftProp;
+
+    /// <summary>
+    /// The back right propelller's PropellerMotion script of the drone
+    /// </summary>
+    [Tooltip("The back right propelller's PropellerMotion script of the drone")]
+    public PropellerMotion backRightProp;
 
     // PRIVATE VARAIBLES
+    [Space]
+    [Header("Drone Components")]
     private Transform droneTf;
     [Tooltip("The tranform which points the forward direction of this drone")]
     [SerializeField]
@@ -20,6 +45,10 @@ public class DroneMovement : MonoBehaviour
     [Tooltip("The move speed")]
     [Range(5f, 50f)]
     [SerializeField]
+    private float altitudeRate = 5f;
+    [Tooltip("The move speed")]
+    [Range(5f, 50f)]
+    [SerializeField]
     private float moveSpeed = 5f;
 
     [Tooltip("The yaw change rate")]
@@ -28,12 +57,18 @@ public class DroneMovement : MonoBehaviour
     private float yawRate = 50f;
 
     [Tooltip("The pitch change rate")]
+    [Range(50f, 200f)]
     [SerializeField]
     private float pitchRate = 50f;
 
     [Tooltip("The roll change rate")]
+    [Range(50f, 200f)]
     [SerializeField]
     private float rollRate = 50f;
+
+    [SerializeField]
+    [Tooltip("The propeller force to be add or subtracted")]
+    private float propellerForce = 1f;
 
     private Rigidbody droneRb;
     private float altitude = 0f;      // +1 = gain altitude, -1 = lose altitude
@@ -102,42 +137,98 @@ public class DroneMovement : MonoBehaviour
         // apply the effects of input
         if (altitude > 0)
         {
-            droneTf.Translate(forwardTf.up * Time.deltaTime * moveSpeed, Space.World);
+            // drone movement
+            droneTf.Translate(forwardTf.up * Time.deltaTime * altitudeRate, Space.World);
+
+            // propellers forces affected
+            frontLeftProp.AddForce = propellerForce;
+            frontRightProp.AddForce = propellerForce;
+            backLeftProp.AddForce = propellerForce;
+            backRightProp.AddForce = propellerForce;
         }
         else if (altitude < 0)
         {
-            droneTf.Translate(-forwardTf.up * Time.deltaTime * moveSpeed, Space.World);
+            // drone movement
+            droneTf.Translate(-forwardTf.up * Time.deltaTime * altitudeRate, Space.World);
+
+            // propellers forces affected
+            frontLeftProp.AddForce = -propellerForce;
+            frontRightProp.AddForce = -propellerForce;
+            backLeftProp.AddForce = -propellerForce;
+            backRightProp.AddForce = -propellerForce;
         }
 
         if (yaw > 0)
         {
+            // drone movement
             droneTf.Rotate(-forwardTf.up * Time.deltaTime * yawRate, Space.World);
+
+            // propeller forces affected
+            frontLeftProp.AddForce = frontLeftProp.clockWise ? -propellerForce : propellerForce;
+            frontRightProp.AddForce = frontRightProp.clockWise ? -propellerForce : propellerForce;
+            backLeftProp.AddForce = backLeftProp.clockWise ? -propellerForce : propellerForce;
+            backRightProp.AddForce = backRightProp.clockWise ? -propellerForce : propellerForce;
         }
         else if (yaw < 0)
         {
+            // drone movement
             droneTf.Rotate(forwardTf.up * Time.deltaTime * yawRate, Space.World);
+
+            // propeller forces affected
+            frontLeftProp.AddForce = frontLeftProp.clockWise ? propellerForce : -propellerForce;
+            frontRightProp.AddForce = frontRightProp.clockWise ? propellerForce : -propellerForce;
+            backLeftProp.AddForce = backLeftProp.clockWise ? propellerForce : -propellerForce;
+            backRightProp.AddForce = backRightProp.clockWise ? propellerForce : -propellerForce;
         }
 
         if (pitch > 0)
         {
+            // drone movement
             droneTf.Translate(forwardTf.forward * Time.deltaTime * moveSpeed, Space.World);
             droneTf.Rotate(forwardTf.right * Time.deltaTime * pitchRate, Space.World);
+
+            // propellers affected
+            frontLeftProp.AddForce = -propellerForce;
+            frontRightProp.AddForce = -propellerForce;
+            backLeftProp.AddForce = propellerForce;
+            backRightProp.AddForce = propellerForce;
         }
         else if (pitch < 0)
         {
+            // drone movement
             droneTf.Translate(-forwardTf.forward * Time.deltaTime * moveSpeed, Space.World);
             droneTf.Rotate(-forwardTf.right * Time.deltaTime * pitchRate, Space.World);
+
+            // propellers affected
+            frontLeftProp.AddForce = propellerForce;
+            frontRightProp.AddForce = propellerForce;
+            backLeftProp.AddForce = -propellerForce;
+            backRightProp.AddForce = -propellerForce;
         }
 
         if (roll > 0)
         {
+            // drone movement
             droneTf.Translate(-forwardTf.right * Time.deltaTime * moveSpeed, Space.World);
             droneTf.Rotate(forwardTf.forward * Time.deltaTime * rollRate, Space.World);
+
+            // propeller affected
+            frontLeftProp.AddForce = -propellerForce;
+            backLeftProp.AddForce = -propellerForce;
+            frontRightProp.AddForce = propellerForce;
+            backRightProp.AddForce = propellerForce;
         }
         else if (roll < 0)
         {
+            // drone movement
             droneTf.Translate(forwardTf.right * Time.deltaTime * moveSpeed, Space.World);
             droneTf.Rotate(-forwardTf.forward * Time.deltaTime * rollRate, Space.World);
+
+            // propeller affected
+            frontLeftProp.AddForce = propellerForce;
+            backLeftProp.AddForce = propellerForce;
+            frontRightProp.AddForce = -propellerForce;
+            backRightProp.AddForce = -propellerForce;
         }
 
         // move towards the ideal position
