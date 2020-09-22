@@ -1978,8 +1978,8 @@ GameObject:
   - component: {fileID: 7878895274398239969}
   - component: {fileID: 7878895274401656871}
   - component: {fileID: 7878895274400191833}
-  - component: {fileID: 7550927973866034199}
   - component: {fileID: 1144415097}
+  - component: {fileID: 1144415094}
   m_Layer: 0
   m_Name: backLeftPropeller
   m_TagString: Untagged
@@ -2048,7 +2048,20 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!120 &7550927973866034199
+--- !u!114 &1144415097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7878895274398469697}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ec74a608a9144544b2d16c7943798c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clockWise: 1
+--- !u!120 &1144415094
 LineRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2121,7 +2134,7 @@ LineRenderer:
       serializedVersion: 2
       key0: {r: 1, g: 0, b: 0, a: 1}
       key1: {r: 1, g: 0.033018887, b: 0.033018887, a: 1}
-      key2: {r: 0.023584902, g: 1, b: 0.09478191, a: 1}
+      key2: {r: 0.023584902, g: 1, b: 0.09478191, a: 0}
       key3: {r: 1, g: 1, b: 1, a: 0}
       key4: {r: 1, g: 1, b: 1, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
@@ -2137,7 +2150,7 @@ LineRenderer:
       ctime7: 0
       atime0: 0
       atime1: 65535
-      atime2: 65535
+      atime2: 0
       atime3: 0
       atime4: 0
       atime5: 0
@@ -2154,19 +2167,6 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 0
   m_Loop: 0
---- !u!114 &1144415097
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7878895274398469697}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ec74a608a9144544b2d16c7943798c3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  clockWise: 1
 --- !u!1 &7878895274398471383
 GameObject:
   m_ObjectHideFlags: 0
@@ -2501,9 +2501,9 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 126
   m_CollisionDetection: 0
 --- !u!65 &7878895274404856529
 BoxCollider:
@@ -2530,18 +2530,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a491a0c29a7a9434a871929eeca58e29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frontLeftProp: {fileID: 0}
-  frontRightProp: {fileID: 0}
-  backLeftProp: {fileID: 0}
-  backRightProp: {fileID: 0}
+  frontLeftProp: {fileID: 161494193}
+  frontRightProp: {fileID: 181404526}
+  backLeftProp: {fileID: 1144415097}
+  backRightProp: {fileID: 1314806778}
   forwardTf: {fileID: 3128503162257407571}
-  idealRotationRate: 1
-  altitudeRate: 5
-  moveSpeed: 5
-  yawRate: 50
+  idealRotationRate: 2
+  altitudeRate: 10
+  moveSpeed: 15
+  yawRate: 100
   pitchRate: 50
   rollRate: 50
-  propellerForce: 100
+  propellerForce: 1
 --- !u!1 &7878895274398480941
 GameObject:
   m_ObjectHideFlags: 0

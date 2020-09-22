@@ -12,7 +12,7 @@ public class PropellerMotion : MonoBehaviour
     {
         set
         {
-            addForce = 1 + value;
+            addForce = value;
             lineRenderer.SetPosition(1, Vector3.forward + Vector3.forward * 0.5f * addForce);
         }
     }

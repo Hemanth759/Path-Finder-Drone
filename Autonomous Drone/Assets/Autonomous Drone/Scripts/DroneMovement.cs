@@ -93,6 +93,7 @@ public class DroneMovement : MonoBehaviour
     private void Update()
     {
         ResetInputs();
+        CheckReset();
 
         // press w to gain height or s to loss height
         if (Input.GetKey(KeyCode.W))
@@ -233,6 +234,15 @@ public class DroneMovement : MonoBehaviour
 
         // move towards the ideal position
         droneTf.rotation = Quaternion.Slerp(droneTf.rotation, Quaternion.Euler(0f, droneTf.rotation.eulerAngles.y, 0f), Time.deltaTime * idealRotationRate);
+    }
+
+    void CheckReset()
+    {
+        if (Input.GetKey(KeyCode.R))
+        {
+            droneRb.velocity = Vector3.zero;
+            droneRb.angularVelocity = Vector3.zero;
+        }
     }
 
     /// <summary>
