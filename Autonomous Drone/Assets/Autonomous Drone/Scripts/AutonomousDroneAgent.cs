@@ -11,6 +11,7 @@ public class AutonomousDroneAgent : Agent
 
     // PRIVATE VARABILES
     private Rigidbody droneRb;
+    private TrainingEnvironment environment;
     private EnvironmentParameters m_ResetParams;
     private DroneMovement droneMovement;
 
@@ -24,6 +25,7 @@ public class AutonomousDroneAgent : Agent
         droneRb = this.GetComponent<Rigidbody>();
         m_ResetParams = Academy.Instance.EnvironmentParameters;
         droneMovement = this.GetComponent<DroneMovement>();
+        environment = this.GetComponentInParent<TrainingEnvironment>();
 
         ResetParameters();
     }
@@ -144,10 +146,10 @@ public class AutonomousDroneAgent : Agent
         this.droneRb.angularDrag = m_ResetParams.GetWithDefault("angular_drag", 0.1f);
         float scale = m_ResetParams.GetWithDefault("scale", 1f);
         this.transform.localScale = new Vector3(scale, scale, scale);
-        this.transform.position = new Vector3(0f, 5f, 0f);
         this.droneRb.rotation = Quaternion.identity;
         this.droneRb.velocity = Vector3.zero;
         this.droneRb.angularVelocity = Vector3.zero;
+        environment.MoveDroneToSafePlace();
     }
 
     /// <summary>
