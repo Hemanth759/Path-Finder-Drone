@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class DroneMovement : MonoBehaviour
 {
@@ -76,6 +74,19 @@ public class DroneMovement : MonoBehaviour
     private float pitch = 0f;       // +1 to tilt forward, -1 to tilt backward
     private float roll = 0f;        // +1 to roll left, -1 to tilt right
 
+    /// <summary>
+    /// The altitude change in the drone
+    /// </summary>
+    /// <returns></returns>
+    [HideInInspector]
+    public float Altitude { set => altitude = value; }
+    [HideInInspector]
+    public float Yaw { set => yaw = value; }
+    [HideInInspector]
+    public float Pitch { set => pitch = value; }
+    [HideInInspector]
+    public float Roll { set => roll = value; }
+
 
     /// <summary>
     /// Start is called before the first frame update
@@ -92,10 +103,10 @@ public class DroneMovement : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        ResetInputs();
+        // ResetInputs();
         CheckReset();
 
-        CheckInputs();
+        // CheckInputs();
         ApplyMovementToDrone();
     }
 
