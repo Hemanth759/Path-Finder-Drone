@@ -1604,11 +1604,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Automated Drone
       objectReference: {fileID: 0}
-    - target: {fileID: 7878895274403812809, guid: ac5a3c93f033b3549b538bc5705c0fc8,
-        type: 3}
-      propertyPath: m_Constraints
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ac5a3c93f033b3549b538bc5705c0fc8, type: 3}
 --- !u!4 &5875141645287700852 stripped
