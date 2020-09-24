@@ -134,6 +134,16 @@ public class AutonomousDroneAgent : Agent
         ResetDrone();
         ResetPhysics();
         ResetPropellers();
+        ResetGoal();
+    }
+
+    /// <summary>
+    /// Resets the goal location
+    /// </summary> 
+    void ResetGoal()
+    {
+        // move the goal to random safe place
+        environment.MoveGoalToSafePlace();
     }
 
     /// <summary>
@@ -179,6 +189,11 @@ public class AutonomousDroneAgent : Agent
     /// <param name="other"></param>
     private void OnCollisionEnter(Collision other)
     {
+        AddReward(-1f);
+
+        // stabilize the drone
+        droneRb.velocity = Vector3.zero;
+        droneRb.angularVelocity = Vector3.zero;
         this.EndEpisode();
     }
 }

@@ -11,10 +11,36 @@ public class TrainingEnvironment : MonoBehaviour
     public GameObject droneObject;
 
     /// <summary>
+    /// Goal tranform
+    /// </summary>
+    [Tooltip("Goal tranform")]
+    public Transform goalTf;
+
+    /// <summary>
     /// Places the drone in a safe place 
     /// where no object is colliding with drone collider
     /// </summary>
     public void MoveDroneToSafePlace()
+    {
+        FindSafePositionAndMove(droneObject.transform, 15f, 50f);
+    }
+
+    /// <summary>
+    /// Move the goal game tranform to a random 
+    /// safe location in the terrain
+    /// </summary>
+    public void MoveGoalToSafePlace()
+    {
+        FindSafePositionAndMove(goalTf, 7.5f, 50f);
+    }
+
+    /// <summary>
+    /// Move the objTf to a safe location in the terrain
+    /// </summary>
+    /// <param name="objTf">The object tranform that needs to be moved to a new random safe location</param>
+    /// <param name="maxHeight">The maximum possible y value of the object's <see cref="Transform"> can take</param>
+    /// <param name="maxRadius">The maximum possible radius the object's <see cref="Transform"> can go from the terrain center in the xz plane</param>
+    private void FindSafePositionAndMove(Transform objTf, float maxHeight, float maxRadius)
     {
         bool sagePositionFound = false;
         int attemptsRemaining = 100; // Prevents the infinite loop
@@ -26,10 +52,10 @@ public class TrainingEnvironment : MonoBehaviour
         {
             --attemptsRemaining;
             // Pick a random height from the ground 
-            float height = UnityEngine.Random.Range(5f, 15f);
+            float height = UnityEngine.Random.Range(2f, maxHeight);
 
             // Pick a random radius from the center of the area
-            float radius = UnityEngine.Random.Range(2f, 50f);
+            float radius = UnityEngine.Random.Range(0f, maxRadius);
 
             // Pick a random rotation rotated around the Y axis
             Vector3 direction = new Vector3(UnityEngine.Random.Range(-1f, 1f), 0f, UnityEngine.Random.Range(-1f, 1f));
@@ -53,7 +79,7 @@ public class TrainingEnvironment : MonoBehaviour
         Debug.Assert(sagePositionFound, "Cound not find a safe position to spawn");
 
         // Set the position and rotation
-        droneObject.transform.position = potentialPosition;
-        droneObject.transform.rotation = potentialRotation;
+        objTf.position = potentialPosition;
+        objTf.rotation = potentialRotation;
     }
 }
