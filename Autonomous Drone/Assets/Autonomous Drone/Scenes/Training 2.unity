@@ -540,11 +540,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1233520020}
     m_Modifications:
+    - target: {fileID: 5368458904620474974, guid: ac5a3c93f033b3549b538bc5705c0fc8,
+        type: 3}
+      propertyPath: m_BrainParameters.VectorObservationSize
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 6888503172127224688, guid: ac5a3c93f033b3549b538bc5705c0fc8,
         type: 3}
       propertyPath: MaxStep
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6888503172127224688, guid: ac5a3c93f033b3549b538bc5705c0fc8,
+        type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 272209396}
     - target: {fileID: 7878895274398204241, guid: ac5a3c93f033b3549b538bc5705c0fc8,
         type: 3}
       propertyPath: m_LocalPosition.x

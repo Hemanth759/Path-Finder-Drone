@@ -10,6 +10,13 @@ public class AutonomousDroneAgent : Agent
     // PUBLIC VARAIBLES
 
     // PRIVATE VARABILES
+    [Tooltip("The amount of horizontal distance the drone should be able to receive information")]
+    [SerializeField]
+    private float maxViewDistance = 10f;
+
+    [Tooltip("The tranform component of the target game object")]
+    [SerializeField]
+    private Transform target = null;
     private Rigidbody droneRb;
     private TrainingEnvironment environment;
     private EnvironmentParameters m_ResetParams;
@@ -48,10 +55,15 @@ public class AutonomousDroneAgent : Agent
     /// <param name="sensor">The sensor component of the agent</param>
     public override void CollectObservations(VectorSensor sensor)
     {
-        base.CollectObservations(sensor);
+        // observe the direction of the target w.r.t the forward direction of the agent (+3 observations)
+        Vector3 toGoalDirection = droneMovement.ForwardTf.forward - target.position.normalized;
+        sensor.AddObservation(toGoalDirection.normalized);
 
-        sensor.AddObservation(1f);
-        // TODO: implement the observe the environment code
+        // observe the min of distance of the target from the agent and maxViewDistance (+1 observations)
+        float distanceToTarget = Mathf.Min(Vector3.Distance(this.transform.position, target.position), maxViewDistance);
+        sensor.AddObservation(distanceToTarget);
+
+        // total observations are 4
     }
 
     /// <summary>

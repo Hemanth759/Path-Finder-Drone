@@ -86,6 +86,7 @@ public class DroneMovement : MonoBehaviour
     public float Pitch { set => pitch = value; }
     [HideInInspector]
     public float Roll { set => roll = value; }
+    public Transform ForwardTf { get => forwardTf; }
 
 
     /// <summary>
