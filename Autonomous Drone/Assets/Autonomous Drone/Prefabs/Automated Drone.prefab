@@ -3096,7 +3096,7 @@ MonoBehaviour:
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 0
+  MaxStep: 10000
   debugMode: 1
   maxViewDistance: 10
   target: {fileID: 0}

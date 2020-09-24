@@ -8,7 +8,7 @@ public class TrainingEnvironment : MonoBehaviour
     /// Drone present in the envirnment
     /// </summary>
     [Tooltip("Drone present in the envirnment")]
-    public GameObject droneObject;
+    public Transform droneTf;
 
     /// <summary>
     /// Goal tranform
@@ -22,16 +22,23 @@ public class TrainingEnvironment : MonoBehaviour
     /// </summary>
     public void MoveDroneToSafePlace()
     {
-        FindSafePositionAndMove(droneObject.transform, 15f, 50f);
+        FindSafePositionAndMove(droneTf, 15f, 45f, 50f, 50f);
     }
 
     /// <summary>
     /// Move the goal game tranform to a random 
     /// safe location in the terrain
     /// </summary>
-    public void MoveGoalToSafePlace()
+    public void MoveGoalToSafePlace(bool inFrontOfDrone)
     {
-        FindSafePositionAndMove(goalTf, 7.5f, 50f);
+        if (inFrontOfDrone)
+        {
+            FindSafePositionAndMove(goalTf, 7.5f, 1.5f, droneTf.position.x, droneTf.position.y);
+        }
+        else
+        {
+            FindSafePositionAndMove(goalTf, 7.5f, 45f, 50f, 50f);
+        }
     }
 
     /// <summary>
@@ -40,7 +47,7 @@ public class TrainingEnvironment : MonoBehaviour
     /// <param name="objTf">The object tranform that needs to be moved to a new random safe location</param>
     /// <param name="maxHeight">The maximum possible y value of the object's <see cref="Transform"> can take</param>
     /// <param name="maxRadius">The maximum possible radius the object's <see cref="Transform"> can go from the terrain center in the xz plane</param>
-    private void FindSafePositionAndMove(Transform objTf, float maxHeight, float maxRadius)
+    private void FindSafePositionAndMove(Transform objTf, float maxHeight, float maxRadius, float xOffset, float zOffset)
     {
         bool sagePositionFound = false;
         int attemptsRemaining = 100; // Prevents the infinite loop
@@ -61,7 +68,7 @@ public class TrainingEnvironment : MonoBehaviour
             Vector3 direction = new Vector3(UnityEngine.Random.Range(-1f, 1f), 0f, UnityEngine.Random.Range(-1f, 1f));
 
             // Combine height, radius and direction to pick a potential position
-            potentialPosition = new Vector3(50f, 0f, 50f) + this.transform.position + Vector3.up * height + direction * radius;
+            potentialPosition = new Vector3(xOffset, 0f, zOffset) + this.transform.position + Vector3.up * height + direction * radius;
 
             // Choose and set random starting pitch and yaw
             float pitch = UnityEngine.Random.Range(-60f, 60f);

@@ -158,7 +158,8 @@ public class AutonomousDroneAgent : Agent
     void ResetGoal()
     {
         // move the goal to random safe place
-        environment.MoveGoalToSafePlace();
+        bool inFrontOfDrone = 0.6f < UnityEngine.Random.Range(0f, 1f);
+        environment.MoveGoalToSafePlace(inFrontOfDrone);
 
         // make foundgoal bool to not found
         foundGoal = false;
@@ -250,7 +251,8 @@ public class AutonomousDroneAgent : Agent
         yield return new WaitForSeconds(3f);
 
         // moves the goal to a new safe place
-        environment.MoveGoalToSafePlace();
+        bool moveInFrontOfDrone = 0.6f < UnityEngine.Random.Range(0f, 1f);
+        environment.MoveGoalToSafePlace(moveInFrontOfDrone);
         foundGoal = false;
     }
 
