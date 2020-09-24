@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Unity.MLAgents;
 using Unity.MLAgents.Sensors;
@@ -21,6 +20,7 @@ public class AutonomousDroneAgent : Agent
     private TrainingEnvironment environment;
     private EnvironmentParameters m_ResetParams;
     private DroneMovement droneMovement;
+    private bool foundGoal;
 
     /// <summary>
     /// Called when the scene is initialied
@@ -42,8 +42,6 @@ public class AutonomousDroneAgent : Agent
     /// </summary>
     public override void OnEpisodeBegin()
     {
-        base.OnEpisodeBegin();
-
         // reset parameters
         ResetParameters();
     }
@@ -55,15 +53,18 @@ public class AutonomousDroneAgent : Agent
     /// <param name="sensor">The sensor component of the agent</param>
     public override void CollectObservations(VectorSensor sensor)
     {
-        // observe the direction of the target w.r.t the forward direction of the agent (+3 observations)
-        Vector3 toGoalDirection = droneMovement.ForwardTf.forward - target.position.normalized;
+        // observe the direction of the target w.r.t the that of the agent (+3 observations)
+        Vector3 toGoalDirection = target.position - this.transform.position;
         sensor.AddObservation(toGoalDirection.normalized);
+
+        // observe the forward direction of the agent (+3 observations)
+        sensor.AddObservation(droneMovement.ForwardTf.forward);
 
         // observe the min of distance of the target from the agent and maxViewDistance (+1 observations)
         float distanceToTarget = Mathf.Min(Vector3.Distance(this.transform.position, target.position), maxViewDistance);
         sensor.AddObservation(distanceToTarget);
 
-        // total observations are 4
+        // total observations are 7
     }
 
     /// <summary>
@@ -156,6 +157,9 @@ public class AutonomousDroneAgent : Agent
     {
         // move the goal to random safe place
         environment.MoveGoalToSafePlace();
+
+        // make foundgoal bool to not found
+        foundGoal = false;
     }
 
     /// <summary>
@@ -207,5 +211,52 @@ public class AutonomousDroneAgent : Agent
         droneRb.velocity = Vector3.zero;
         droneRb.angularVelocity = Vector3.zero;
         this.EndEpisode();
+    }
+
+    /// <summary>
+    /// Called when the <see cref="Collider"> of this object touches a isTriggered collider 
+    /// </summary>
+    /// <param name="other">Other game object's collider</param>
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Goal") && !foundGoal)
+        {
+            foundGoal = true;
+            StartCoroutine(MoveGoalToNewPlace());
+        }
+    }
+
+    /// <summary>
+    /// Called when this <see cref="Collider"> of this object stays inside a other collider which is isTriggered
+    /// </summary>
+    /// <param name="other"></param>
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("Goal"))
+        {
+            // Calculate the reward for staying inside the target location
+            float bonus = 0.02f * (1 - Mathf.Clamp01(Vector3.Distance(this.transform.position, target.position)));
+
+            // add small reward for staying in the goal position
+            AddReward(0.01f + bonus);
+        }
+    }
+
+    private IEnumerator MoveGoalToNewPlace()
+    {
+        // waitf for 3 secs before assigning the goal gameobject a new position
+        yield return new WaitForSeconds(3f);
+
+        // moves the goal to a new safe place
+        environment.MoveGoalToSafePlace();
+    }
+
+    /// <summary>
+    /// Called for each frame
+    /// </summary>
+    private void Update()
+    {
+        Vector3 toGoalDirection = target.position - this.transform.position;
+        Debug.DrawLine(this.transform.position, this.transform.position + toGoalDirection.normalized, Color.green);
     }
 }
