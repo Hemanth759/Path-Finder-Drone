@@ -13,10 +13,7 @@ public class PropellerMotion : MonoBehaviour
         set
         {
             addForce = value;
-            if (droneAgent.debugMode)
-            {
-                lineRenderer.SetPosition(1, Vector3.forward + Vector3.forward * 0.5f * addForce);
-            }
+            lineRenderer.SetPosition(1, Vector3.forward + Vector3.forward * 0.5f * addForce);
         }
     }
 
@@ -37,13 +34,20 @@ public class PropellerMotion : MonoBehaviour
         lineRenderer = this.GetComponent<LineRenderer>();
         addForce = 0f;
         droneAgent = this.GetComponentInParent<AutonomousDroneAgent>();
+        if (!droneAgent.debugMode)
+        {
+            lineRenderer.enabled = false;
+        }
+        else
+        {
+            lineRenderer.enabled = true;
+        }
     }
 
     private void Update()
     {
         RotatePropeller();
-        if (droneAgent.debugMode)
-            StabilizeLine();
+        StabilizeLine();
         ResetRotationSpeed();
     }
 
