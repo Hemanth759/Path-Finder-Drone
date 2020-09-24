@@ -249,6 +249,7 @@ public class AutonomousDroneAgent : Agent
 
         // moves the goal to a new safe place
         environment.MoveGoalToSafePlace();
+        foundGoal = false;
     }
 
     /// <summary>
