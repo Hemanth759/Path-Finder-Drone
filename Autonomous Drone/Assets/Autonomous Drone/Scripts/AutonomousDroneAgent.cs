@@ -7,6 +7,8 @@ using Unity.MLAgents.Sensors;
 public class AutonomousDroneAgent : Agent
 {
     // PUBLIC VARAIBLES
+    [Tooltip("True if running in debug mode")]
+    public bool debugMode = true;
 
     // PRIVATE VARABILES
     [Tooltip("The amount of horizontal distance the drone should be able to receive information")]
@@ -257,7 +259,10 @@ public class AutonomousDroneAgent : Agent
     /// </summary>
     private void Update()
     {
-        Vector3 toGoalDirection = target.position - this.transform.position;
-        Debug.DrawLine(this.transform.position, this.transform.position + toGoalDirection.normalized, Color.green);
+        if (debugMode)
+        {
+            Vector3 toGoalDirection = target.position - this.transform.position;
+            Debug.DrawLine(this.transform.position, this.transform.position + toGoalDirection.normalized, Color.green);
+        }
     }
 }
