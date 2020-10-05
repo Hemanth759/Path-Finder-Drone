@@ -206,15 +206,24 @@ public class AutonomousDroneAgent : Agent
     /// Called when the collider of the gameobject detects a collision with other object
     /// </summary>
     /// <param name="other"></param>
-    private void OnCollisionEnter(Collision other)
+    void onCollisionStayOrEnter(Collision other)
     {
         AddReward(-1f);
 
         // stabilize the drone
-        Debug.Log("collided and reseting the scene");
         droneRb.velocity = Vector3.zero;
         droneRb.angularVelocity = Vector3.zero;
         this.EndEpisode();
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        onCollisionStayOrEnter(other);
+    }
+
+    private void OnCollisionStay(Collision other)
+    {
+        onCollisionStayOrEnter(other);
     }
 
     /// <summary>

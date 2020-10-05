@@ -17,8 +17,12 @@ public class TrainingEnvironment : MonoBehaviour
     [Tooltip("Goal tranform")]
     public Transform goalTf;
 
-
     private Terrain terrain;
+    private float maxDroneSpawnHeight = 5.5f;
+    private float maxGoalSpawnHeight = 5.5f;
+    private float spawnOffSet = 40f;
+    private float TerrainCenterOffsetX = 50f;
+    private float TerrainCenterOffsetY = 50f;
 
     /// <summary>
     /// Called at the start of the scene
@@ -34,7 +38,7 @@ public class TrainingEnvironment : MonoBehaviour
     /// </summary>
     public void MoveDroneToSafePlace()
     {
-        FindSafePositionAndMove(droneTf, 5.5f, 45f, 50f, 50f);
+        FindSafePositionAndMove(droneTf, maxDroneSpawnHeight, spawnOffSet, TerrainCenterOffsetX, TerrainCenterOffsetY);
     }
 
     /// <summary>
@@ -45,11 +49,11 @@ public class TrainingEnvironment : MonoBehaviour
     {
         if (inFrontOfDrone)
         {
-            FindSafePositionAndMove(goalTf, 5.5f, 1.5f, droneTf.position.x, droneTf.position.y);
+            FindSafePositionAndMove(goalTf, maxGoalSpawnHeight, 1.5f, droneTf.position.x, droneTf.position.y);
         }
         else
         {
-            FindSafePositionAndMove(goalTf, 5.5f, 45f, 50f, 50f);
+            FindSafePositionAndMove(goalTf, maxGoalSpawnHeight, spawnOffSet, TerrainCenterOffsetX, TerrainCenterOffsetY);
         }
     }
 
@@ -62,7 +66,7 @@ public class TrainingEnvironment : MonoBehaviour
     private void FindSafePositionAndMove(Transform objTf, float maxHeight, float maxRadius, float xOffset, float zOffset)
     {
         bool sagePositionFound = false;
-        int attemptsRemaining = 100; // Prevents the infinite loop
+        int attemptsRemaining = 200; // Prevents the infinite loop
         Vector3 potentialPosition = Vector3.zero;
         Quaternion potentialRotation = new Quaternion();
 
