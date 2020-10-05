@@ -18,6 +18,10 @@ public class AutonomousDroneAgent : Agent
     [Tooltip("The tranform component of the target game object")]
     [SerializeField]
     private Transform target = null;
+
+    [Tooltip("The terrain component of the environment")]
+    [SerializeField]
+    private Terrain terrainEnv;
     private Rigidbody droneRb;
     private TrainingEnvironment environment;
     private EnvironmentParameters m_ResetParams;
@@ -275,6 +279,22 @@ public class AutonomousDroneAgent : Agent
         {
             Vector3 toGoalDirection = target.position - this.transform.position;
             Debug.DrawLine(this.transform.position, this.transform.position + toGoalDirection.normalized, Color.green);
+        }
+    }
+
+    /// <summary>
+    /// Called for each physics update
+    /// </summary>
+    private void FixedUpdate()
+    {
+        if (this.transform.position.y < terrainEnv.SampleHeight(this.transform.position))
+        {
+            AddReward(-1f);
+
+            // stabilize the drone
+            droneRb.velocity = Vector3.zero;
+            droneRb.angularVelocity = Vector3.zero;
+            this.EndEpisode();
         }
     }
 }

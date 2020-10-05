@@ -3051,7 +3051,7 @@ MonoBehaviour:
   backRightProp: {fileID: 1314806778}
   forwardTf: {fileID: 3128503162257407571}
   idealRotationRate: 2
-  altitudeRate: 10
+  altitudeRate: 15
   moveSpeed: 15
   yawRate: 100
   pitchRate: 50
@@ -3100,6 +3100,7 @@ MonoBehaviour:
   debugMode: 0
   maxViewDistance: 10
   target: {fileID: 0}
+  terrainEnv: {fileID: 0}
 --- !u!114 &3369484648042445499
 MonoBehaviour:
   m_ObjectHideFlags: 0
