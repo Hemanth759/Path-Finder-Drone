@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 public class TrainingEnvironment : MonoBehaviour
 {
@@ -16,13 +17,24 @@ public class TrainingEnvironment : MonoBehaviour
     [Tooltip("Goal tranform")]
     public Transform goalTf;
 
+
+    private Terrain terrain;
+
+    /// <summary>
+    /// Called at the start of the scene
+    /// </summary>
+    private void Start()
+    {
+        terrain = this.GetComponent<Terrain>();
+    }
+
     /// <summary>
     /// Places the drone in a safe place 
     /// where no object is colliding with drone collider
     /// </summary>
     public void MoveDroneToSafePlace()
     {
-        FindSafePositionAndMove(droneTf, 15f, 45f, 50f, 50f);
+        FindSafePositionAndMove(droneTf, 5.5f, 45f, 50f, 50f);
     }
 
     /// <summary>
@@ -33,11 +45,11 @@ public class TrainingEnvironment : MonoBehaviour
     {
         if (inFrontOfDrone)
         {
-            FindSafePositionAndMove(goalTf, 7.5f, 1.5f, droneTf.position.x, droneTf.position.y);
+            FindSafePositionAndMove(goalTf, 5.5f, 1.5f, droneTf.position.x, droneTf.position.y);
         }
         else
         {
-            FindSafePositionAndMove(goalTf, 7.5f, 45f, 50f, 50f);
+            FindSafePositionAndMove(goalTf, 5.5f, 45f, 50f, 50f);
         }
     }
 
@@ -68,7 +80,8 @@ public class TrainingEnvironment : MonoBehaviour
             Vector3 direction = new Vector3(UnityEngine.Random.Range(-1f, 1f), 0f, UnityEngine.Random.Range(-1f, 1f));
 
             // Combine height, radius and direction to pick a potential position
-            potentialPosition = new Vector3(xOffset, 0f, zOffset) + this.transform.position + Vector3.up * height + direction * radius;
+            potentialPosition = new Vector3(xOffset, 0f, zOffset) + this.transform.position + direction * radius;
+            potentialPosition += Vector3.up * (height);
 
             // Choose and set random starting pitch and yaw
             float pitch = UnityEngine.Random.Range(-60f, 60f);

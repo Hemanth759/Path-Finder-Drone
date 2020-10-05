@@ -211,6 +211,7 @@ public class AutonomousDroneAgent : Agent
         AddReward(-1f);
 
         // stabilize the drone
+        Debug.Log("collided and reseting the scene");
         droneRb.velocity = Vector3.zero;
         droneRb.angularVelocity = Vector3.zero;
         this.EndEpisode();
