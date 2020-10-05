@@ -21,7 +21,12 @@ public class AutonomousDroneAgent : Agent
 
     [Tooltip("The terrain component of the environment")]
     [SerializeField]
-    private Terrain terrainEnv;
+    private Terrain terrainEnv = null;
+
+    [Tooltip("The probability of the goal spawning nearby the drone (1 => spawns always nearby, 0 => spawns never nearby)")]
+    [Range(0f, 1f)]
+    [SerializeField]
+    private float infrontProbability = 0.5f;
     private Rigidbody droneRb;
     private TrainingEnvironment environment;
     private EnvironmentParameters m_ResetParams;
@@ -162,7 +167,7 @@ public class AutonomousDroneAgent : Agent
     void ResetGoal()
     {
         // move the goal to random safe place
-        bool inFrontOfDrone = 0.6f < UnityEngine.Random.Range(0f, 1f);
+        bool inFrontOfDrone = infrontProbability < UnityEngine.Random.Range(0f, 1f);
         environment.MoveGoalToSafePlace(inFrontOfDrone);
 
         // make foundgoal bool to not found

@@ -23,6 +23,7 @@ public class TrainingEnvironment : MonoBehaviour
     private float spawnOffSet = 40f;
     private float TerrainCenterOffsetX = 50f;
     private float TerrainCenterOffsetY = 50f;
+    private readonly float nearSpawnMaxRadius = 5f;
 
     /// <summary>
     /// Called at the start of the scene
@@ -49,7 +50,7 @@ public class TrainingEnvironment : MonoBehaviour
     {
         if (inFrontOfDrone)
         {
-            FindSafePositionAndMove(goalTf, maxGoalSpawnHeight, 1.5f, droneTf.position.x, droneTf.position.y);
+            FindSafePositionAndMove(goalTf, maxGoalSpawnHeight, nearSpawnMaxRadius, droneTf.position.x, droneTf.position.y);
         }
         else
         {
