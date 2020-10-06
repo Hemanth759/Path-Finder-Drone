@@ -19,11 +19,11 @@ public class TrainingEnvironment : MonoBehaviour
 
     private Terrain terrain;
     private const float maxDroneSpawnHeight = 5.5f;
-    private float maxGoalSpawnHeight = 5.5f;
-    private float spawnOffSet = 40f;
-    private float TerrainCenterOffsetX = 50f;
-    private float TerrainCenterOffsetY = 50f;
-    private const float nearSpawnMaxRadius = 2.5f;
+    private const float maxGoalSpawnHeight = 5.5f;
+    private const float spawnOffSet = 40f;
+    private const float TerrainCenterOffsetX = 50f;
+    private const float TerrainCenterOffsetY = 50f;
+    private const float nearSpawnMaxRadius = 1f;
 
     private void Awake()
     {
@@ -55,7 +55,7 @@ public class TrainingEnvironment : MonoBehaviour
     {
         if (inFrontOfDrone)
         {
-            FindSafePositionAndMove(goalTf, maxGoalSpawnHeight, nearSpawnMaxRadius, droneTf.localPosition.x, droneTf.localPosition.y);
+            FindSafePositionAndMove(goalTf, maxGoalSpawnHeight, nearSpawnMaxRadius, droneTf.localPosition.x, droneTf.localPosition.z);
         }
         else
         {
