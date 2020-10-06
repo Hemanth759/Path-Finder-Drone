@@ -18,19 +18,24 @@ public class TrainingEnvironment : MonoBehaviour
     public Transform goalTf;
 
     private Terrain terrain;
-    private float maxDroneSpawnHeight = 5.5f;
+    private const float maxDroneSpawnHeight = 5.5f;
     private float maxGoalSpawnHeight = 5.5f;
     private float spawnOffSet = 40f;
     private float TerrainCenterOffsetX = 50f;
     private float TerrainCenterOffsetY = 50f;
-    private readonly float nearSpawnMaxRadius = 5f;
+    private const float nearSpawnMaxRadius = 2.5f;
+
+    private void Awake()
+    {
+        terrain = this.GetComponent<Terrain>();
+    }
 
     /// <summary>
     /// Called at the start of the scene
     /// </summary>
     private void Start()
     {
-        terrain = this.GetComponent<Terrain>();
+        // terrain = this.GetComponent<Terrain>();
     }
 
     /// <summary>
@@ -50,7 +55,7 @@ public class TrainingEnvironment : MonoBehaviour
     {
         if (inFrontOfDrone)
         {
-            FindSafePositionAndMove(goalTf, maxGoalSpawnHeight, nearSpawnMaxRadius, droneTf.position.x, droneTf.position.y);
+            FindSafePositionAndMove(goalTf, maxGoalSpawnHeight, nearSpawnMaxRadius, droneTf.localPosition.x, droneTf.localPosition.y);
         }
         else
         {
@@ -66,13 +71,13 @@ public class TrainingEnvironment : MonoBehaviour
     /// <param name="maxRadius">The maximum possible radius the object's <see cref="Transform"> can go from the terrain center in the xz plane</param>
     private void FindSafePositionAndMove(Transform objTf, float maxHeight, float maxRadius, float xOffset, float zOffset)
     {
-        bool sagePositionFound = false;
-        int attemptsRemaining = 200; // Prevents the infinite loop
+        bool safePositionFound = false;
+        int attemptsRemaining = 100; // Prevents the infinite loop
         Vector3 potentialPosition = Vector3.zero;
         Quaternion potentialRotation = new Quaternion();
 
         // Loop until safe place is found or we run out of attempts
-        while (!sagePositionFound && attemptsRemaining > 0)
+        while (!safePositionFound && attemptsRemaining > 0)
         {
             --attemptsRemaining;
             // Pick a random height from the ground 
@@ -85,8 +90,8 @@ public class TrainingEnvironment : MonoBehaviour
             Vector3 direction = new Vector3(UnityEngine.Random.Range(-1f, 1f), 0f, UnityEngine.Random.Range(-1f, 1f));
 
             // Combine height, radius and direction to pick a potential position
-            potentialPosition = new Vector3(xOffset, 0f, zOffset) + this.transform.position + direction * radius;
-            potentialPosition += Vector3.up * (height);
+            potentialPosition = new Vector3(xOffset, 0f, zOffset) + (direction * radius);
+            potentialPosition += Vector3.up * (height + terrain.SampleHeight(potentialPosition));
 
             // Choose and set random starting pitch and yaw
             float pitch = UnityEngine.Random.Range(-60f, 60f);
@@ -98,13 +103,15 @@ public class TrainingEnvironment : MonoBehaviour
             Collider[] colliders = Physics.OverlapSphere(potentialPosition, 1f);
 
             // Safe posiion found if no colliders are found
-            sagePositionFound = colliders.Length == 0;
+            safePositionFound = colliders.Length == 0;
         }
 
-        Debug.Assert(sagePositionFound, "Cound not find a safe position to spawn");
+        Debug.Assert(safePositionFound, "Cound not find a safe position to spawn");
 
         // Set the position and rotation
-        objTf.position = potentialPosition;
-        objTf.rotation = potentialRotation;
+        objTf.localPosition = potentialPosition;
+        objTf.localRotation = potentialRotation;
     }
+
+
 }
