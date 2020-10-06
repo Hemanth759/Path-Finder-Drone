@@ -95,7 +95,7 @@ public class TrainingEnvironment : MonoBehaviour
 
 
             // Check if the potential position and rotation are no colliding with any game object
-            Collider[] colliders = Physics.OverlapSphere(potentialPosition, 2f);
+            Collider[] colliders = Physics.OverlapSphere(potentialPosition, 1f);
 
             // Safe posiion found if no colliders are found
             sagePositionFound = colliders.Length == 0;

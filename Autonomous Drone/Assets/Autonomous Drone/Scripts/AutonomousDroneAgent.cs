@@ -292,6 +292,13 @@ public class AutonomousDroneAgent : Agent
     /// </summary>
     private void FixedUpdate()
     {
+        // give negative reward for going away from the goal
+        // calculate the distance of the target normalized with maxViewDistance
+        float distance = Mathf.Clamp(Vector3.Distance(this.transform.position, target.position), 0f, maxViewDistance) / maxViewDistance;
+        // add negative reward for being far from the target location
+        AddReward(-distance * 0.01f);
+
+        // checks if the drone went below the terrain and punishes and resets the environment
         if (this.transform.position.y < terrainEnv.SampleHeight(this.transform.position))
         {
             AddReward(-1f);
