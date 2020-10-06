@@ -18,8 +18,8 @@ public class TrainingEnvironment : MonoBehaviour
     public Transform goalTf;
 
     private Terrain terrain;
-    private const float maxDroneSpawnHeight = 5.5f;
-    private const float maxGoalSpawnHeight = 5.5f;
+    private const float maxDroneSpawnHeight = 15.5f;
+    private const float maxGoalSpawnHeight = 20f;
     private const float spawnOffSet = 40f;
     private const float TerrainCenterOffsetX = 50f;
     private const float TerrainCenterOffsetY = 50f;
@@ -81,7 +81,7 @@ public class TrainingEnvironment : MonoBehaviour
         {
             --attemptsRemaining;
             // Pick a random height from the ground 
-            float height = UnityEngine.Random.Range(2f, maxHeight);
+            float height = UnityEngine.Random.Range(5f, maxHeight);
 
             // Pick a random radius from the center of the area
             float radius = UnityEngine.Random.Range(0f, maxRadius);

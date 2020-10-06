@@ -68,6 +68,9 @@ public class AutonomousDroneAgent : Agent
         Vector3 toGoalDirection = target.position - this.transform.position;
         sensor.AddObservation(toGoalDirection.normalized);
 
+        // Observe the agent's local rotation (4 Observaions)
+        sensor.AddObservation(this.transform.rotation.normalized);
+
         // observe the forward direction of the agent (+3 observations)
         sensor.AddObservation(droneMovement.ForwardTf.forward);
 
@@ -75,7 +78,7 @@ public class AutonomousDroneAgent : Agent
         float distanceToTarget = Mathf.Min(Vector3.Distance(this.transform.position, target.position), maxViewDistance);
         sensor.AddObservation(distanceToTarget);
 
-        // total observations are 7
+        // total observations are 11
     }
 
     /// <summary>
@@ -217,7 +220,7 @@ public class AutonomousDroneAgent : Agent
     /// <param name="other"></param>
     void onCollisionStayOrEnter(Collision other)
     {
-        SetReward(-1f);
+        AddReward(-0.25f);
 
         // stabilize the drone
         droneRb.velocity = Vector3.zero;
@@ -294,14 +297,14 @@ public class AutonomousDroneAgent : Agent
     {
         // give negative reward for going away from the goal
         // calculate the distance of the target normalized with maxViewDistance
-        float distance = Mathf.Clamp(Vector3.Distance(this.transform.position, target.position), 0f, maxViewDistance) / maxViewDistance;
+        float distance = 1 - Mathf.Min(Vector3.Distance(this.transform.position, target.position), maxViewDistance) / maxViewDistance;
         // add negative reward for being far from the target location
-        AddReward(-distance * 0.001f);
+        AddReward(distance * 0.01f);
 
         // checks if the drone went below the terrain and punishes and resets the environment
         if (this.transform.position.y < terrainEnv.SampleHeight(this.transform.position))
         {
-            SetReward(-1f);
+            AddReward(-0.25f);
 
             // stabilize the drone
             droneRb.velocity = Vector3.zero;
