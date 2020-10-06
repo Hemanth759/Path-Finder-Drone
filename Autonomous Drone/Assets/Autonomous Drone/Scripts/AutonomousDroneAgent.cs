@@ -18,6 +18,15 @@ public class AutonomousDroneAgent : Agent
     [Tooltip("The tranform component of the target game object")]
     [SerializeField]
     private Transform target = null;
+
+    [Tooltip("The terrain component of the environment")]
+    [SerializeField]
+    private Terrain terrainEnv = null;
+
+    [Tooltip("The probability of the goal spawning nearby the drone (1 => spawns always nearby, 0 => spawns never nearby)")]
+    [Range(0f, 1f)]
+    [SerializeField]
+    private float infrontProbability = 0.5f;
     private Rigidbody droneRb;
     private TrainingEnvironment environment;
     private EnvironmentParameters m_ResetParams;
@@ -158,7 +167,7 @@ public class AutonomousDroneAgent : Agent
     void ResetGoal()
     {
         // move the goal to random safe place
-        bool inFrontOfDrone = 0.6f < UnityEngine.Random.Range(0f, 1f);
+        bool inFrontOfDrone = infrontProbability < UnityEngine.Random.Range(0f, 1f);
         environment.MoveGoalToSafePlace(inFrontOfDrone);
 
         // make foundgoal bool to not found
@@ -206,7 +215,7 @@ public class AutonomousDroneAgent : Agent
     /// Called when the collider of the gameobject detects a collision with other object
     /// </summary>
     /// <param name="other"></param>
-    private void OnCollisionEnter(Collision other)
+    void onCollisionStayOrEnter(Collision other)
     {
         AddReward(-1f);
 
@@ -214,6 +223,16 @@ public class AutonomousDroneAgent : Agent
         droneRb.velocity = Vector3.zero;
         droneRb.angularVelocity = Vector3.zero;
         this.EndEpisode();
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        onCollisionStayOrEnter(other);
+    }
+
+    private void OnCollisionStay(Collision other)
+    {
+        onCollisionStayOrEnter(other);
     }
 
     /// <summary>
@@ -265,6 +284,22 @@ public class AutonomousDroneAgent : Agent
         {
             Vector3 toGoalDirection = target.position - this.transform.position;
             Debug.DrawLine(this.transform.position, this.transform.position + toGoalDirection.normalized, Color.green);
+        }
+    }
+
+    /// <summary>
+    /// Called for each physics update
+    /// </summary>
+    private void FixedUpdate()
+    {
+        if (this.transform.position.y < terrainEnv.SampleHeight(this.transform.position))
+        {
+            AddReward(-1f);
+
+            // stabilize the drone
+            droneRb.velocity = Vector3.zero;
+            droneRb.angularVelocity = Vector3.zero;
+            this.EndEpisode();
         }
     }
 }

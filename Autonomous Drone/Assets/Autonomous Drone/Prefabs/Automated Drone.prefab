@@ -3019,7 +3019,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!65 &7878895274404856529
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3051,7 +3051,7 @@ MonoBehaviour:
   backRightProp: {fileID: 1314806778}
   forwardTf: {fileID: 3128503162257407571}
   idealRotationRate: 2
-  altitudeRate: 10
+  altitudeRate: 15
   moveSpeed: 15
   yawRate: 100
   pitchRate: 50
@@ -3097,9 +3097,10 @@ MonoBehaviour:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
   MaxStep: 10000
-  debugMode: 1
+  debugMode: 0
   maxViewDistance: 10
   target: {fileID: 0}
+  terrainEnv: {fileID: 0}
 --- !u!114 &3369484648042445499
 MonoBehaviour:
   m_ObjectHideFlags: 0
