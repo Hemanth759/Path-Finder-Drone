@@ -69,16 +69,17 @@ public class AutonomousDroneAgent : Agent
         sensor.AddObservation(toGoalDirection.normalized);
 
         // Observe the agent's local rotation (4 Observaions)
-        sensor.AddObservation(this.transform.rotation.normalized);
+        sensor.AddObservation(this.transform.localRotation.normalized);
 
-        // observe the forward direction of the agent (+3 observations)
-        sensor.AddObservation(droneMovement.ForwardTf.forward);
+        // observe the dot product of that indicaties wheather the drone is making what angle with the toGoalDirection (+1 observation)
+        // (+1 means that the drone is pointing directly at the goal, -1 means directly away)
+        sensor.AddObservation(Vector3.Dot(toGoalDirection.normalized, droneMovement.ForwardTf.forward));
 
         // observe the min of distance of the target from the agent and maxViewDistance (+1 observations)
-        float distanceToTarget = Mathf.Min(Vector3.Distance(this.transform.position, target.position), maxViewDistance);
+        float distanceToTarget = Mathf.Min(toGoalDirection.magnitude, maxViewDistance) / maxViewDistance;
         sensor.AddObservation(distanceToTarget);
 
-        // total observations are 11
+        // total observations are 9
     }
 
     /// <summary>
@@ -244,10 +245,14 @@ public class AutonomousDroneAgent : Agent
     /// <param name="other">Other game object's collider</param>
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Goal") && !foundGoal)
+        if (other.CompareTag("Goal"))
         {
-            foundGoal = true;
-            StartCoroutine(MoveGoalToNewPlace());
+            if (!foundGoal)
+            {
+                foundGoal = true;
+                StartCoroutine(MoveGoalToNewPlace());
+            }
+            OnTriggerEnterAndStay(other);
         }
     }
 
@@ -256,6 +261,11 @@ public class AutonomousDroneAgent : Agent
     /// </summary>
     /// <param name="other"></param>
     private void OnTriggerStay(Collider other)
+    {
+        OnTriggerEnterAndStay(other);
+    }
+
+    private void OnTriggerEnterAndStay(Collider other)
     {
         if (other.CompareTag("Goal"))
         {
