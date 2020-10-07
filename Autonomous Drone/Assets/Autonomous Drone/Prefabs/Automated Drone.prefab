@@ -177,7 +177,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_SensorName: Back
   m_DetectableTags: []
-  m_RaysPerDirection: 2
+  m_RaysPerDirection: 0
   m_MaxRayDegrees: 35
   m_SphereCastRadius: 1
   m_RayLength: 10
@@ -234,7 +234,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_SensorName: Right
   m_DetectableTags: []
-  m_RaysPerDirection: 2
+  m_RaysPerDirection: 0
   m_MaxRayDegrees: 35
   m_SphereCastRadius: 1
   m_RayLength: 10
@@ -291,7 +291,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_SensorName: Left
   m_DetectableTags: []
-  m_RaysPerDirection: 2
+  m_RaysPerDirection: 0
   m_MaxRayDegrees: 35
   m_SphereCastRadius: 1
   m_RayLength: 10
@@ -472,7 +472,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_SensorName: Forward
   m_DetectableTags: []
-  m_RaysPerDirection: 2
+  m_RaysPerDirection: 0
   m_MaxRayDegrees: 35
   m_SphereCastRadius: 1
   m_RayLength: 10
@@ -3070,7 +3070,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    VectorObservationSize: 7
+    VectorObservationSize: 11
     NumStackedVectorObservations: 1
     VectorActionSize: 04000000
     VectorActionDescriptions: []
@@ -3101,6 +3101,7 @@ MonoBehaviour:
   maxViewDistance: 10
   target: {fileID: 0}
   terrainEnv: {fileID: 0}
+  infrontProbability: 0.5
 --- !u!114 &3369484648042445499
 MonoBehaviour:
   m_ObjectHideFlags: 0

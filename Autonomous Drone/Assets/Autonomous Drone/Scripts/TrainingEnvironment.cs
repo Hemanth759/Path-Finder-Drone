@@ -81,7 +81,7 @@ public class TrainingEnvironment : MonoBehaviour
         {
             --attemptsRemaining;
             // Pick a random height from the ground 
-            float height = UnityEngine.Random.Range(5f, maxHeight);
+            float height = UnityEngine.Random.Range(15f, maxHeight);
 
             // Pick a random radius from the center of the area
             float radius = UnityEngine.Random.Range(0f, maxRadius);

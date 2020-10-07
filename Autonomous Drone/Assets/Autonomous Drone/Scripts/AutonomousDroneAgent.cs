@@ -220,7 +220,7 @@ public class AutonomousDroneAgent : Agent
     /// <param name="other"></param>
     void onCollisionStayOrEnter(Collision other)
     {
-        AddReward(-0.25f);
+        AddReward(-0.5f);
 
         // stabilize the drone
         droneRb.velocity = Vector3.zero;
@@ -295,16 +295,10 @@ public class AutonomousDroneAgent : Agent
     /// </summary>
     private void FixedUpdate()
     {
-        // give negative reward for going away from the goal
-        // calculate the distance of the target normalized with maxViewDistance
-        float distance = 1 - Mathf.Min(Vector3.Distance(this.transform.position, target.position), maxViewDistance) / maxViewDistance;
-        // add negative reward for being far from the target location
-        AddReward(distance * 0.01f);
-
         // checks if the drone went below the terrain and punishes and resets the environment
-        if (this.transform.position.y < terrainEnv.SampleHeight(this.transform.position))
+        if (this.transform.position.y < terrainEnv.SampleHeight(this.transform.position) || this.transform.position.y > 50f)
         {
-            AddReward(-0.25f);
+            AddReward(-0.5f);
 
             // stabilize the drone
             droneRb.velocity = Vector3.zero;
