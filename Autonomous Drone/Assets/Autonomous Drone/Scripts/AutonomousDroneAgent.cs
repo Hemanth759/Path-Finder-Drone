@@ -35,9 +35,26 @@ public class AutonomousDroneAgent : Agent
     private bool foundGoal;
 
     /// <summary>
+    /// Called when the scene loads
+    /// </summary>
+    private void Awake()
+    {
+        droneCamera = this.GetComponentInChildren<Camera>();
+
+        // disable camera or enable based on debugmode
+        if (debugMode)
+        {
+            droneCamera.gameObject.SetActive(true);
+        }
+        else
+        {
+            droneCamera.gameObject.SetActive(false);
+        }
+    }
+
+    /// <summary>
     /// Called when the scene is initialied
     /// </summary>
-
     public override void Initialize()
     {
         base.Initialize();
@@ -45,17 +62,6 @@ public class AutonomousDroneAgent : Agent
         m_ResetParams = Academy.Instance.EnvironmentParameters;
         droneMovement = this.GetComponent<DroneMovement>();
         environment = this.GetComponentInParent<TrainingEnvironment>();
-        droneCamera = this.GetComponentInChildren<Camera>();
-
-        // disable camera or enable based on debugmode
-        if (debugMode)
-        {
-            droneCamera.gameObject.SetActive(false);
-        }
-        else
-        {
-            droneCamera.gameObject.SetActive(true);
-        }
 
         ResetParameters();
     }
