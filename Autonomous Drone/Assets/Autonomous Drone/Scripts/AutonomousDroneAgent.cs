@@ -31,12 +31,30 @@ public class AutonomousDroneAgent : Agent
     private TrainingEnvironment environment;
     private EnvironmentParameters m_ResetParams;
     private DroneMovement droneMovement;
+    private Camera droneCamera;
     private bool foundGoal;
+
+    /// <summary>
+    /// Called when the scene loads
+    /// </summary>
+    private void Awake()
+    {
+        droneCamera = this.GetComponentInChildren<Camera>();
+
+        // disable camera or enable based on debugmode
+        if (debugMode)
+        {
+            droneCamera.gameObject.SetActive(true);
+        }
+        else
+        {
+            droneCamera.gameObject.SetActive(false);
+        }
+    }
 
     /// <summary>
     /// Called when the scene is initialied
     /// </summary>
-
     public override void Initialize()
     {
         base.Initialize();
@@ -68,14 +86,18 @@ public class AutonomousDroneAgent : Agent
         Vector3 toGoalDirection = target.position - this.transform.position;
         sensor.AddObservation(toGoalDirection.normalized);
 
-        // observe the forward direction of the agent (+3 observations)
-        sensor.AddObservation(droneMovement.ForwardTf.forward);
+        // Observe the agent's local rotation (4 Observaions)
+        sensor.AddObservation(this.transform.localRotation.normalized);
+
+        // observe the dot product of that indicaties wheather the drone is making what angle with the toGoalDirection (+1 observation)
+        // (+1 means that the drone is pointing directly at the goal, -1 means directly away)
+        sensor.AddObservation(Vector3.Dot(toGoalDirection.normalized, droneMovement.ForwardTf.forward));
 
         // observe the min of distance of the target from the agent and maxViewDistance (+1 observations)
-        float distanceToTarget = Mathf.Min(Vector3.Distance(this.transform.position, target.position), maxViewDistance);
+        float distanceToTarget = Mathf.Min(toGoalDirection.magnitude, maxViewDistance) / maxViewDistance;
         sensor.AddObservation(distanceToTarget);
 
-        // total observations are 7
+        // total observations are 9
     }
 
     /// <summary>
@@ -217,7 +239,7 @@ public class AutonomousDroneAgent : Agent
     /// <param name="other"></param>
     void onCollisionStayOrEnter(Collision other)
     {
-        AddReward(-1f);
+        AddReward(-0.5f);
 
         // stabilize the drone
         droneRb.velocity = Vector3.zero;
@@ -241,10 +263,14 @@ public class AutonomousDroneAgent : Agent
     /// <param name="other">Other game object's collider</param>
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Goal") && !foundGoal)
+        if (other.CompareTag("Goal"))
         {
-            foundGoal = true;
-            StartCoroutine(MoveGoalToNewPlace());
+            if (!foundGoal)
+            {
+                foundGoal = true;
+                StartCoroutine(MoveGoalToNewPlace());
+            }
+            OnTriggerEnterAndStay(other);
         }
     }
 
@@ -253,6 +279,11 @@ public class AutonomousDroneAgent : Agent
     /// </summary>
     /// <param name="other"></param>
     private void OnTriggerStay(Collider other)
+    {
+        OnTriggerEnterAndStay(other);
+    }
+
+    private void OnTriggerEnterAndStay(Collider other)
     {
         if (other.CompareTag("Goal"))
         {
@@ -292,9 +323,10 @@ public class AutonomousDroneAgent : Agent
     /// </summary>
     private void FixedUpdate()
     {
-        if (this.transform.position.y < terrainEnv.SampleHeight(this.transform.position))
+        // checks if the drone went below the terrain and punishes and resets the environment
+        if (this.transform.position.y < terrainEnv.SampleHeight(this.transform.position) || this.transform.position.y > 50f)
         {
-            AddReward(-1f);
+            AddReward(-0.5f);
 
             // stabilize the drone
             droneRb.velocity = Vector3.zero;
