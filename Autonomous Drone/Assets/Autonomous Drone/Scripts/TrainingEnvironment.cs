@@ -25,17 +25,12 @@ public class TrainingEnvironment : MonoBehaviour
     private const float TerrainCenterOffsetY = 50f;
     private const float nearSpawnMaxRadius = 1f;
 
+    /// <summary>
+    /// Called when the scene is initialized
+    /// </summary>
     private void Awake()
     {
         terrain = this.GetComponent<Terrain>();
-    }
-
-    /// <summary>
-    /// Called at the start of the scene
-    /// </summary>
-    private void Start()
-    {
-        // terrain = this.GetComponent<Terrain>();
     }
 
     /// <summary>
