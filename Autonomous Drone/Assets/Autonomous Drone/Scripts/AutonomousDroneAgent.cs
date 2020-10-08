@@ -31,6 +31,7 @@ public class AutonomousDroneAgent : Agent
     private TrainingEnvironment environment;
     private EnvironmentParameters m_ResetParams;
     private DroneMovement droneMovement;
+    private Camera droneCamera;
     private bool foundGoal;
 
     /// <summary>
@@ -44,6 +45,17 @@ public class AutonomousDroneAgent : Agent
         m_ResetParams = Academy.Instance.EnvironmentParameters;
         droneMovement = this.GetComponent<DroneMovement>();
         environment = this.GetComponentInParent<TrainingEnvironment>();
+        droneCamera = this.GetComponentInChildren<Camera>();
+
+        // disable camera or enable based on debugmode
+        if (debugMode)
+        {
+            droneCamera.gameObject.SetActive(false);
+        }
+        else
+        {
+            droneCamera.gameObject.SetActive(true);
+        }
 
         ResetParameters();
     }
