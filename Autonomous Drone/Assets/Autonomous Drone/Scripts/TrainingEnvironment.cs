@@ -5,7 +5,11 @@ using UnityEditor;
 
 public class TrainingEnvironment : MonoBehaviour
 {
-    public bool save = false;
+    /// <summary>
+    /// Whether to save the points to cloud or not
+    /// </summary>
+    [Tooltip("Whether to save the points to cloud or not")]
+    public bool saveToFile = false;
 
     /// <summary>
     /// Drone present in the envirnment
@@ -38,21 +42,9 @@ public class TrainingEnvironment : MonoBehaviour
     /// </summary>
     private void Awake()
     {
-        /*if (displayCloudPoints)
-        {
-            // ExportManager.Loading += externalVisualization.Loading;
-            LidarStorage.HaveData += DataExists;
-
-            filepath = Application.dataPath + "/../../../cloudpoints/cloudpoints.txt";
-            exportManager = GetComponent<ExportManager>();
-            exportManager.Open(filepath);
-        }
-        else
-        {*/
-            terrain = this.GetComponent<Terrain>();
-            lidarStorageGameObject = GameObject.FindGameObjectWithTag("Lidar");
-            lidarStorage = lidarStorageGameObject.GetComponent<LidarStorage>();
-        /*}*/
+        terrain = this.GetComponent<Terrain>();
+        lidarStorageGameObject = GameObject.FindGameObjectWithTag("Lidar");
+        lidarStorage = lidarStorageGameObject.GetComponent<LidarStorage>();
     }
 
     /// <summary>
@@ -60,24 +52,17 @@ public class TrainingEnvironment : MonoBehaviour
     /// </summary>
     void OnApplicationQuit()
     {
-        /*if (!displayCloudPoints)
-        {*/
-            string _dir_ = Application.dataPath + "/../../../cloudpoints";
-            string path = _dir_ + "/cloudpoints.txt";
-            /*for (int i = 1; System.IO.File.Exists(path); i++)
-            {
-                path = _dir_ + "/cloudpoints" + i + ".txt";
-            }*/
+        string _dir_ = Application.dataPath + "/../../../cloudpoints";
+        string path = _dir_ + "/cloudpoints.txt";
 
-            if (save)
-            {
-                Save(path);
-            }
-        /*}*/
+        if (saveToFile)
+        {
+            Save(path);
+        }
     }
 
     /// <summary>
-    /// Saves to the given filepath
+    /// Saves the cloud points from the lidar sensor to the given filepath
     /// </summary>
     /// <param name="filePath"></param>
     public void Save(string filePath)

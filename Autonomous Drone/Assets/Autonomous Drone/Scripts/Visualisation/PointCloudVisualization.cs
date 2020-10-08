@@ -95,7 +95,7 @@ public class PointCloudVisualization : MonoBehaviour
     {
         StreamReader sr = new StreamReader(File.OpenRead(filename));
         Dictionary<float, List<LinkedList<SphericalCoordinate>>> data = new Dictionary<float, List<LinkedList<SphericalCoordinate>>>();
-        bool internalData = false; //The data to be read was created by our program
+        // bool internalData = false; //The data to be read was created by our program
 
 
         // First line starts with "sep= " internal representation.
@@ -134,11 +134,11 @@ public class PointCloudVisualization : MonoBehaviour
                 }
                 catch (FormatException e)
                 {
-                    Debug.Log("Exception! |time|radius|inclination|azimuth" + "|" + columns[0] + "|" + columns[2] + "|" + columns[3] + "|" + columns[4]);
+                    Debug.Log("Exception! |time|radius|inclination|azimuth" + "|" + columns[0] + "|" + columns[2] + "|" + columns[3] + "|" + columns[4] + " \nwith error: " + e.Message);
                 }
                 catch (ArgumentOutOfRangeException e)
                 {
-                    Debug.Log("Length:" + columns.Length);
+                    Debug.Log("Length:" + columns.Length + " \nwith error: " + e.Message);
                 }
 
 

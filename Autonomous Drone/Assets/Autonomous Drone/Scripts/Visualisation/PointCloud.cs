@@ -11,10 +11,10 @@ public class PointCloud : MonoBehaviour
     private int maxParticleSystems = 50;
     private int maxParticlesPerCloud = 500; // maximum number of particles in a particle system
     private float particleSize = 0.1f;
-    private bool isEnabled = false;
+    // private bool isEnabled = false;
     private int usedParticleSystem = 0;
     private int currentNumberOfSystems;
-    private Dictionary<int,ParticleSystem> particleSystemIdMap;
+    private Dictionary<int, ParticleSystem> particleSystemIdMap;
     private Stack<List<ParticleSystem.Particle>> particleListPool;
     private List<ParticleSystem.Particle> particleBuffer; //allows for reusing particles
     private ParticleSystem.Particle[] oldParticles;
@@ -54,14 +54,15 @@ public class PointCloud : MonoBehaviour
     private void UpdateParticle(LinkedList<SphericalCoordinate> positions)
     {
 
-        if(particleListPool.Count > 0)
+        if (particleListPool.Count > 0)
         {
             particleCloud = particleListPool.Pop();
-        } else
+        }
+        else
         {
             particleCloud = new List<ParticleSystem.Particle>();
         }
-        
+
         ParticleSystem currentParticleSystem = particleSystemIdMap[usedParticleSystem];
 
         oldParticles = new ParticleSystem.Particle[currentParticleSystem.particleCount];
@@ -70,49 +71,51 @@ public class PointCloud : MonoBehaviour
         {
             currentParticleSystem.GetParticles(oldParticles);
             particleCloud.AddRange(oldParticles);
-        } else
+        }
+        else
         {
             currentParticleSystem.GetParticles(oldParticles);
             particleBuffer.AddRange(oldParticles);
         }
         foreach (var coordinate in positions)
         {
-                ParticleSystem.Particle particle;
-                if (particleBuffer.Count > 0)
-                {
-                    particle = particleBuffer[0];
-                    particleBuffer.RemoveAt(0);
-                } else
-                {
-                    particle = new ParticleSystem.Particle();
-                }
-                particle.position = coordinate.ToCartesian();
-                if (coordinate.GetRadius() < 5)
-                {
-                    particle.startColor = Color.red;
+            ParticleSystem.Particle particle;
+            if (particleBuffer.Count > 0)
+            {
+                particle = particleBuffer[0];
+                particleBuffer.RemoveAt(0);
+            }
+            else
+            {
+                particle = new ParticleSystem.Particle();
+            }
+            particle.position = coordinate.ToCartesian();
+            if (coordinate.GetRadius() < 5)
+            {
+                particle.startColor = Color.red;
 
-                }
-                else if (coordinate.GetRadius() > 5 && coordinate.GetRadius() < 10)
-                {
-                    particle.startColor = Color.yellow;
+            }
+            else if (coordinate.GetRadius() > 5 && coordinate.GetRadius() < 10)
+            {
+                particle.startColor = Color.yellow;
 
-                }
-                else
-                {
-                    particle.startColor = Color.green;
+            }
+            else
+            {
+                particle.startColor = Color.green;
 
-                }
+            }
 
-                particle.startSize = particleSize;
-                particle.startLifetime = 100f;
-                particle.remainingLifetime = 200f;
-                particleCloud.Add(particle);
+            particle.startSize = particleSize;
+            particle.startLifetime = 100f;
+            particle.remainingLifetime = 200f;
+            particleCloud.Add(particle);
 
         }
         particleSystemIdMap[usedParticleSystem].SetParticles(particleCloud.ToArray(), particleCloud.Count);
         particleCloud.Clear();
         particleListPool.Push(particleCloud);
-        
+
     }
 
     /// <summary>
@@ -121,12 +124,12 @@ public class PointCloud : MonoBehaviour
     /// <param name="points"></param>
     public void OnUpdatePoints(float time, LinkedList<SphericalCoordinate> points)
     {
-       if (particleSystemIdMap[usedParticleSystem].particleCount > maxParticlesPerCloud)
-       {
-         usedParticleSystem = (usedParticleSystem + 1) % maxParticleSystems;
-       }
-       UpdateParticle(points);
-            
+        if (particleSystemIdMap[usedParticleSystem].particleCount > maxParticlesPerCloud)
+        {
+            usedParticleSystem = (usedParticleSystem + 1) % maxParticleSystems;
+        }
+        UpdateParticle(points);
+
     }
 
     void OnDisable()
@@ -144,14 +147,14 @@ public class PointCloud : MonoBehaviour
     public void Play()
     {
         LidarSensor.OnScanned += OnUpdatePoints;
-        isEnabled = true;
+        // isEnabled = true;
         foreach (var entity in particleSystemIdMap)
-            {
-                entity.Value.Play();
-            }
-        
+        {
+            entity.Value.Play();
+        }
+
     }
-    
+
 
     /// <summary>
     /// Pauses the visualization
@@ -159,30 +162,32 @@ public class PointCloud : MonoBehaviour
     public void Pause()
     {
         LidarSensor.OnScanned -= OnUpdatePoints;
-        isEnabled = false;          
+        // isEnabled = false;          
         foreach (var entity in particleSystemIdMap)
         {
             entity.Value.Clear();
             entity.Value.Pause();
-        }        
+        }
 
     }
 
-/// <summary>
-/// This method is called when the lidar specifications are changed. Calculates the number of particle systems needed, point size and number of particles / system.
-/// </summary>
+    /// <summary>
+    /// This method is called when the lidar specifications are changed. Calculates the number of particle systems needed, point size and number of particles / system.
+    /// </summary>
     public void UpdateSpecs(int numberOfLasers, float rotationSpeed, float rotationAnglePerStep)
     {
-        int maxNumParticlesPerLap = (int) Mathf.Ceil((360 * numberOfLasers) / rotationAnglePerStep); // maximum number of raycast hits per lap
+        int maxNumParticlesPerLap = (int)Mathf.Ceil((360 * numberOfLasers) / rotationAnglePerStep); // maximum number of raycast hits per lap
 
-        if(maxNumParticlesPerLap < 250000)
+        if (maxNumParticlesPerLap < 250000)
         {
             particleSize = 0.1f;
-            
-        }  else if(maxNumParticlesPerLap < 750000)
+
+        }
+        else if (maxNumParticlesPerLap < 750000)
         {
             particleSize = 0.05f;
-        } else
+        }
+        else
         {
             particleSize = 0.01f;
         }
@@ -193,7 +198,7 @@ public class PointCloud : MonoBehaviour
         {
             maxParticleSystems = newMaxparticleSystems;
             CreateNeededParticleSystems();
-        }     
+        }
 
     }
 
@@ -203,15 +208,15 @@ public class PointCloud : MonoBehaviour
     /// </summary>
     private void CreateNeededParticleSystems()
     {
-            for (int i = currentNumberOfSystems; i < maxParticleSystems; i++)
-            {
-                GameObject newGO = Instantiate(particleGameObject, pointCloudBase.transform.position, Quaternion.identity);
-                newGO.name = "pSyst" + i;
-                ParticleSystem p = newGO.GetComponent<ParticleSystem>();
-                p.transform.SetParent(GameObject.Find("ParticleSystems").transform);
-                particleSystemIdMap.Add(i, p);
-                currentNumberOfSystems++;
-            }
+        for (int i = currentNumberOfSystems; i < maxParticleSystems; i++)
+        {
+            GameObject newGO = Instantiate(particleGameObject, pointCloudBase.transform.position, Quaternion.identity);
+            newGO.name = "pSyst" + i;
+            ParticleSystem p = newGO.GetComponent<ParticleSystem>();
+            p.transform.SetParent(GameObject.Find("ParticleSystems").transform);
+            particleSystemIdMap.Add(i, p);
+            currentNumberOfSystems++;
+        }
 
     }
 

@@ -5,7 +5,8 @@ using UnityEngine;
 /// <summary>
 /// Simulates the lidar sensor by using ray casting.
 /// </summary>
-public class LidarSensor : MonoBehaviour {
+public class LidarSensor : MonoBehaviour
+{
     public GameObject pointCloud;
     public GameObject mainCamera;
 
@@ -36,10 +37,10 @@ public class LidarSensor : MonoBehaviour {
     public float lapTime = 0;
 
     // -- private bool isPlaying = false;
-    private bool laserPreviewInitialized = false;
+    // private bool laserPreviewInitialized = false;
 
     public GameObject pointCloudObject;
-	private float previousUpdate;
+    private float previousUpdate;
 
     private float lastLapTime;
 
@@ -133,12 +134,12 @@ public class LidarSensor : MonoBehaviour {
     /// <param name="isInitialized"></param>
     void LaserPreviewIsInitialized(bool isInitialized)
     {
-        laserPreviewInitialized = true;
+        // laserPreviewInitialized = true;
         UpdateLaserMimicValues();
     }
 
     // Update is called once per frame
-    private void Update ()
+    private void Update()
     {
         // For debugging, shows visible ray in real time.
         /*
@@ -173,7 +174,7 @@ public class LidarSensor : MonoBehaviour {
         }
 
         // Check if it is time to step. Example: 2hz = 2 rotations in a second.
-        if (Time.fixedTime - lastUpdate > (1/(numberOfStepsNeededInOneLap)/rotationSpeedHz) * precalculateIterations)
+        if (Time.fixedTime - lastUpdate > (1 / (numberOfStepsNeededInOneLap) / rotationSpeedHz) * precalculateIterations)
         {
             // Update current execution time.
             lastUpdate = Time.fixedTime;
@@ -188,7 +189,7 @@ public class LidarSensor : MonoBehaviour {
                     horizontalAngle -= 360;
                     //GameObject.Find("RotSpeedText").GetComponent<Text>().text =  "" + (1/(Time.fixedTime - lastLapTime));
                     lastLapTime = Time.fixedTime;
-                   
+
                 }
 
 
@@ -209,9 +210,9 @@ public class LidarSensor : MonoBehaviour {
             // Notify listeners that the lidar sensor have scanned points. 
             //if (OnScanned != null  && pointCloudObject != null && pointCloudObject.activeInHierarchy)
             //{
-                OnScanned(lastLapTime, hits);
+            OnScanned(lastLapTime, hits);
             //}
-                
+
         }
     }
 

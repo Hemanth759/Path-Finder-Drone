@@ -6,15 +6,12 @@ using System.IO;
 public class TestFileBrowser : MonoBehaviour
 {
     public ExportManager exportManager;
-    Texture2D file, folder, back, drive;
+    Texture2D file = null, folder = null, back = null, drive = null;
     FileBrowser fb = new FileBrowser();
     bool active = false;
     public BrowseState state;
 
-
-
-
-    string output = "no file";
+    // string output = "no file";
 
     // Use this for initialization
     void Start()
@@ -30,11 +27,12 @@ public class TestFileBrowser : MonoBehaviour
         //search recursively (setting recursive search may cause a long delay)
         fb.searchRecursively = true;
         fb.SetExportManager(exportManager); // sets the export manager in the filebrowser
-        
-        if(state == BrowseState.Open)
+
+        if (state == BrowseState.Open)
         {
             fb.SetState(FileBrowser.BrowseState.Open);
-        } else
+        }
+        else
         {
             fb.SetState(FileBrowser.BrowseState.Save);
 
@@ -58,10 +56,12 @@ public class TestFileBrowser : MonoBehaviour
 
                 GUI.Box(new Rect(0, 0, 200, 100), "");
                 GUI.Label(new Rect(10, 10, 200, 100), "Do you want to save?");
-                if (GUI.Button(new Rect(30, 40, 60, 30), "Cancel")) {
+                if (GUI.Button(new Rect(30, 40, 60, 30), "Cancel"))
+                {
                     fb.showConfirm = false;
                 };
-                if (GUI.Button(new Rect(100, 40, 60, 30), "Save")) {
+                if (GUI.Button(new Rect(100, 40, 60, 30), "Save"))
+                {
                     fb.SaveFile();
                     fb.showConfirm = false;
                     ToggleFileBrowser();
@@ -76,7 +76,8 @@ public class TestFileBrowser : MonoBehaviour
                 GUI.Box(new Rect(0, 0, 200, 100), "");
                 GUI.Label(new Rect(10, 10, 200, 100), "Do you want to Exit?");
                 if (GUI.Button(new Rect(30, 40, 60, 30), "Cancel")) { fb.showExit = false; };
-                if (GUI.Button(new Rect(100, 40, 60, 30), "Exit")) {
+                if (GUI.Button(new Rect(100, 40, 60, 30), "Exit"))
+                {
                     fb.showExit = false;
                     ToggleFileBrowser();
                 };
@@ -98,8 +99,9 @@ public class TestFileBrowser : MonoBehaviour
         }
     }
 
-    public enum BrowseState {
-        Open,Save
+    public enum BrowseState
+    {
+        Open, Save
     }
 
     public void DisableFB()
