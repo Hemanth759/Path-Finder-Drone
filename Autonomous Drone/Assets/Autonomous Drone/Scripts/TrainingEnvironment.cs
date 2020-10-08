@@ -6,6 +6,12 @@ using UnityEditor;
 public class TrainingEnvironment : MonoBehaviour
 {
     /// <summary>
+    /// Whether to save the points to cloud or not
+    /// </summary>
+    [Tooltip("Whether to save the points to cloud or not")]
+    public bool saveToFile = false;
+
+    /// <summary>
     /// Drone present in the envirnment
     /// </summary>
     [Tooltip("Drone present in the envirnment")]
@@ -16,6 +22,12 @@ public class TrainingEnvironment : MonoBehaviour
     /// </summary>
     [Tooltip("Goal tranform")]
     public Transform goalTf;
+
+    /// <summary>
+    /// object which stores the data collected by lidar sensor
+    /// </summary>
+    private LidarStorage lidarStorage;
+    public GameObject lidarStorageGameObject;
 
     private Terrain terrain;
     private const float maxDroneSpawnHeight = 15.5f;
@@ -31,6 +43,40 @@ public class TrainingEnvironment : MonoBehaviour
     private void Awake()
     {
         terrain = this.GetComponent<Terrain>();
+        lidarStorageGameObject = GameObject.FindGameObjectWithTag("Lidar");
+        lidarStorage = lidarStorageGameObject.GetComponent<LidarStorage>();
+    }
+
+    /// <summary>
+    /// Called when the application is closed
+    /// </summary>
+    void OnApplicationQuit()
+    {
+        string _dir_ = Application.dataPath + "/../../../cloudpoints";
+        string path = _dir_ + "/cloudpoints.txt";
+
+        if (saveToFile)
+        {
+            Save(path);
+        }
+    }
+
+    /// <summary>
+    /// Saves the cloud points from the lidar sensor to the given filepath
+    /// </summary>
+    /// <param name="filePath"></param>
+    public void Save(string filePath)
+    {
+        Dictionary<float, List<LinkedList<SphericalCoordinate>>> data = lidarStorage.GetData();
+
+        if (data.Equals(null) || data.Count == 0)
+        {
+            Debug.Log("No data to save!");
+        }
+        else
+        {
+            SaveManager.SaveToCsv(data, filePath);
+        }
     }
 
     /// <summary>
