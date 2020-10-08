@@ -5,6 +5,8 @@ using UnityEditor;
 
 public class TrainingEnvironment : MonoBehaviour
 {
+    public bool save = false;
+
     /// <summary>
     /// Drone present in the envirnment
     /// </summary>
@@ -16,6 +18,12 @@ public class TrainingEnvironment : MonoBehaviour
     /// </summary>
     [Tooltip("Goal tranform")]
     public Transform goalTf;
+
+    /// <summary>
+    /// object which stores the data collected by lidar sensor
+    /// </summary>
+    private LidarStorage lidarStorage;
+    public GameObject lidarStorageGameObject;
 
     private Terrain terrain;
     private const float maxDroneSpawnHeight = 15.5f;
@@ -30,7 +38,60 @@ public class TrainingEnvironment : MonoBehaviour
     /// </summary>
     private void Awake()
     {
-        terrain = this.GetComponent<Terrain>();
+        /*if (displayCloudPoints)
+        {
+            // ExportManager.Loading += externalVisualization.Loading;
+            LidarStorage.HaveData += DataExists;
+
+            filepath = Application.dataPath + "/../../../cloudpoints/cloudpoints.txt";
+            exportManager = GetComponent<ExportManager>();
+            exportManager.Open(filepath);
+        }
+        else
+        {*/
+            terrain = this.GetComponent<Terrain>();
+            lidarStorageGameObject = GameObject.FindGameObjectWithTag("Lidar");
+            lidarStorage = lidarStorageGameObject.GetComponent<LidarStorage>();
+        /*}*/
+    }
+
+    /// <summary>
+    /// Called when the application is closed
+    /// </summary>
+    void OnApplicationQuit()
+    {
+        /*if (!displayCloudPoints)
+        {*/
+            string _dir_ = Application.dataPath + "/../../../cloudpoints";
+            string path = _dir_ + "/cloudpoints.txt";
+            /*for (int i = 1; System.IO.File.Exists(path); i++)
+            {
+                path = _dir_ + "/cloudpoints" + i + ".txt";
+            }*/
+
+            if (save)
+            {
+                Save(path);
+            }
+        /*}*/
+    }
+
+    /// <summary>
+    /// Saves to the given filepath
+    /// </summary>
+    /// <param name="filePath"></param>
+    public void Save(string filePath)
+    {
+        Dictionary<float, List<LinkedList<SphericalCoordinate>>> data = lidarStorage.GetData();
+
+        if (data.Equals(null) || data.Count == 0)
+        {
+            Debug.Log("No data to save!");
+        }
+        else
+        {
+            SaveManager.SaveToCsv(data, filePath);
+        }
     }
 
     /// <summary>
