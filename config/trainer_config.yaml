@@ -28,4 +28,4 @@ AutoDrone:
     batch_size: 2048
     buffer_size: 20480
     hidden_units: 256
-    max_steps: 5.0e6
+    max_steps: 5.0e7
