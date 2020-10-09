@@ -121,8 +121,8 @@ public class PointCloudVisualization : MonoBehaviour
                     {
                         key = float.Parse(columns[0]);
                         float x = float.Parse(columns[1]);
-                        float z = float.Parse(columns[2]);
-                        float y = float.Parse(columns[3]);
+                        float y = float.Parse(columns[2]);
+                        float z = float.Parse(columns[3]);
                         float radius = float.Parse(columns[4]);
                         float inclination = float.Parse(columns[5]);
                         float azimuth = float.Parse(columns[6]);
