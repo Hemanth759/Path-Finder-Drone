@@ -24,6 +24,17 @@ default:
             gamma: 0.99
 
 AutoDrone:
+    # drone physics values
+    mass: 0.2
+    drag: 0.2
+    angular_drag: 0.1
+    scale: 1
+    left_diagonal_clockwise: true
+    
+    # physics values
+    gravity: -9.81
+    update_time: 0.02
+
     time_horizon: 128
     batch_size: 2048
     buffer_size: 20480

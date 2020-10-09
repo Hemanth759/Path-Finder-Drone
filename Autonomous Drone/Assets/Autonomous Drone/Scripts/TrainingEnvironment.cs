@@ -153,6 +153,4 @@ public class TrainingEnvironment : MonoBehaviour
         objTf.localPosition = potentialPosition;
         objTf.localRotation = potentialRotation;
     }
-
-
 }

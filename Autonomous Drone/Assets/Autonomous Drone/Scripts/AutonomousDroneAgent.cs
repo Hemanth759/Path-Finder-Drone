@@ -226,7 +226,7 @@ public class AutonomousDroneAgent : Agent
     /// </summary>
     void ResetPropellers()
     {
-        bool leftDiagonal = 1 == m_ResetParams.GetWithDefault("left_diagonal", 1);
+        bool leftDiagonal = 1 == m_ResetParams.GetWithDefault("left_diagonal_clockwise", 1);
         this.droneMovement.frontLeftProp.clockWise = leftDiagonal;
         this.droneMovement.backRightProp.clockWise = leftDiagonal;
         this.droneMovement.frontRightProp.clockWise = !leftDiagonal;
