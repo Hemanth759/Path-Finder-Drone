@@ -9,24 +9,17 @@ using System;
 
 public class LoadManager : MonoBehaviour
 {
-
-
-    void Start()
-    {
-
-
-    }
-    public static  IEnumerator LoadCsv(String filename, LidarStorage storage)
+    public static IEnumerator LoadCsv(String filename, LidarStorage storage)
     {
         StreamReader sr = new StreamReader(File.OpenRead(filename));
         Dictionary<float, List<LinkedList<SphericalCoordinate>>> data = new Dictionary<float, List<LinkedList<SphericalCoordinate>>>();
-        bool internalData = false; //The data to be read was created by our program
+        // bool internalData = false; //The data to be read was created by our program
 
 
-        if(sr.Peek().Equals('s')) // First line starts with "sep..." internal representation.
+        if (sr.Peek().Equals('s')) // First line starts with "sep..." internal representation.
         {
-            internalData = true;
-            for(int i = 0; i<2;i++)
+            // internalData = true;
+            for (int i = 0; i < 2; i++)
             {
                 sr.ReadLine(); // Discard first two lines
             }
@@ -45,7 +38,7 @@ public class LoadManager : MonoBehaviour
 
 
                 try
-                { 
+                {
                     if (columns.Length == 4) // Kitty data
                     {
                         key = 1;
@@ -55,20 +48,22 @@ public class LoadManager : MonoBehaviour
                         Vector3 vector = new Vector3(x, y, z);
                         SphericalCoordinate sc = new SphericalCoordinate(vector);
                         coorValues.AddLast(sc);
-                    } else if(columns.Length == 8) // Data from simulation
+                    }
+                    else if (columns.Length == 8) // Data from simulation
                     {
                         key = float.Parse(columns[0]);
                         float x = float.Parse(columns[1]);
                         float z = float.Parse(columns[2]);
                         float y = float.Parse(columns[3]);
-                        float  radius = float.Parse(columns[4]);
+                        float radius = float.Parse(columns[4]);
                         float inclination = float.Parse(columns[5]);
                         float azimuth = float.Parse(columns[6]);
                         int laserId = int.Parse(columns[7]);
                         Vector3 vector = new Vector3(x, y, z);
-                        SphericalCoordinate sc = new SphericalCoordinate(radius,inclination,azimuth,vector,laserId);
+                        SphericalCoordinate sc = new SphericalCoordinate(radius, inclination, azimuth, vector, laserId);
                         coorValues.AddLast(sc);
-                    } else
+                    }
+                    else
                     {
                         throw new FormatException();
                     }
@@ -76,31 +71,32 @@ public class LoadManager : MonoBehaviour
                 }
                 catch (FormatException e)
                 {
-                    Debug.Log("Exception! |time|radius|inclination|azimuth" + "|" + columns[0] + "|" + columns[2] + "|" + columns[3] + "|" + columns[4]);
+                    Debug.Log("Exception! |time|radius|inclination|azimuth" + "|" + columns[0] + "|" + columns[2] + "|" + columns[3] + "|" + columns[4] + " \nwith error: " + e.Message);
                 }
                 catch (ArgumentOutOfRangeException e)
                 {
-                    Debug.Log("Length:" + columns.Length);
+                    Debug.Log("Length:" + columns.Length + " \nwith error: " + e.Message);
                 }
-            
- 
-                    
-                    List<LinkedList<SphericalCoordinate>> oldList;
+
+
+
+                List<LinkedList<SphericalCoordinate>> oldList;
                 List<LinkedList<SphericalCoordinate>> dataList = new List<LinkedList<SphericalCoordinate>>();
                 dataList.Add(coorValues);
-                    if (!data.TryGetValue(key, out oldList))
-                    {
-                        data.Add(key, dataList);
+                if (!data.TryGetValue(key, out oldList))
+                {
+                    data.Add(key, dataList);
 
-                    }
-                    else
-                    {
+                }
+                else
+                {
                     List<LinkedList<SphericalCoordinate>> existingList = data[key];
-                    existingList.Add(coorValues);                        
+                    existingList.Add(coorValues);
 
-                    }
-                
-            } catch(Exception e)
+                }
+
+            }
+            catch (Exception e)
             {
                 Debug.Log("Unreadable data: " + e);
             }

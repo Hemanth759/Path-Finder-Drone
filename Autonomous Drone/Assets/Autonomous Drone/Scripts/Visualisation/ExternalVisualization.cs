@@ -5,25 +5,27 @@ using UnityEngine.UI;
 /// <summary>
 /// Controls the external visualization
 /// </summary>
-public class ExternalVisualization : MonoBehaviour {
-	
-	public GameObject pSystemGameObject, nextBtn, prevBtn, mainPanel,backBtn, loadingPanel, loadWheel;
-	public Button nextButton,prevButton,openButton,backButton;
+public class ExternalVisualization : MonoBehaviour
+{
+
+    public GameObject pSystemGameObject, nextBtn, prevBtn, mainPanel, backBtn, loadingPanel, loadWheel;
+    public Button nextButton, prevButton, openButton, backButton;
     public Text lapText;
     public Toggle fullCloudToggle, lapToggle;
     public TestFileBrowser fileBrowser;
 
-	private int currentListPosition; 
+    private int currentListPosition;
     private Coroutine loadingPoints;
     private Dictionary<float, List<LinkedList<SphericalCoordinate>>> pointTable;
-    private LidarStorage lidarStorage;
-    private ExternalPointCloud externalPointCloud;
+    private LidarStorage lidarStorage = null;
+    private ExternalPointCloud externalPointCloud = null;
     private ParticleSystem pSystem;
 
 
 
-    public void Start() {
-		/*pSystemGameObject  = GameObject.Find("particlesSyst");
+    public void Start()
+    {
+        /*pSystemGameObject  = GameObject.Find("particlesSyst");
         backBtn = GameObject.Find("BackButton");
         mainPanel = GameObject.Find("MainPanel");
         pSystem = pSystemGameObject.GetComponent<ParticleSystem>();
@@ -39,7 +41,7 @@ public class ExternalVisualization : MonoBehaviour {
 
         /*ExportManager.Loading += Loading;
         LidarStorage.HaveData += DataExists;*/
-	}
+    }
 
 
 
@@ -56,11 +58,12 @@ public class ExternalVisualization : MonoBehaviour {
     /// </summary>
     private void SetState(State state)
     {
-        if(state == State.Default)
+        if (state == State.Default)
         {
             mainPanel.SetActive(true);
             backBtn.SetActive(false);
-        } else if(state == State.FullCloud)
+        }
+        else if (state == State.FullCloud)
         {
             mainPanel.SetActive(false);
             backBtn.SetActive(true);
@@ -74,11 +77,11 @@ public class ExternalVisualization : MonoBehaviour {
     }
 
 
-	/// <summary>
-	/// Opens the file dialog and loads a set of previously loaded points. 
-	/// </summary>
-	public void LoadPoints()
-	{
+    /// <summary>
+    /// Opens the file dialog and loads a set of previously loaded points. 
+    /// </summary>
+    public void LoadPoints()
+    {
         fileBrowser.ToggleFileBrowser();
     }
     private LinkedList<SphericalCoordinate> createList(Dictionary<float, List<LinkedList<SphericalCoordinate>>> data)
@@ -135,9 +138,9 @@ public class ExternalVisualization : MonoBehaviour {
     /// <param name="data"></param>
     /// <param name="position"></param>
     /// <returns></returns>
-	private ParticleSystem.Particle[] CreateParticles(Dictionary<float,List<LinkedList<SphericalCoordinate>>> data, int position)
-	{
-		List<ParticleSystem.Particle> particleCloud = new List<ParticleSystem.Particle>();
+	private ParticleSystem.Particle[] CreateParticles(Dictionary<float, List<LinkedList<SphericalCoordinate>>> data, int position)
+    {
+        List<ParticleSystem.Particle> particleCloud = new List<ParticleSystem.Particle>();
         LinkedList<SphericalCoordinate> list = new LinkedList<SphericalCoordinate>();
         int pos = 0;
         foreach (var coorlist in data)
@@ -153,31 +156,31 @@ public class ExternalVisualization : MonoBehaviour {
             }
         }
 
-		for (LinkedListNode<SphericalCoordinate> it = list.First; it != null; it = it.Next)
-		{           
-                ParticleSystem.Particle particle = new ParticleSystem.Particle();
-                particle.position = it.Value.ToCartesian();
-                if (it.Value.GetInclination() < 3)
-                {
-                    particle.startColor = Color.red;
-                }
-                else if (it.Value.GetInclination() > 3 && it.Value.GetInclination() < 7)
-                {
-                    particle.startColor = Color.yellow;
-                }
-                else
-                {
-                    particle.startColor = Color.green;
-                }
+        for (LinkedListNode<SphericalCoordinate> it = list.First; it != null; it = it.Next)
+        {
+            ParticleSystem.Particle particle = new ParticleSystem.Particle();
+            particle.position = it.Value.ToCartesian();
+            if (it.Value.GetInclination() < 3)
+            {
+                particle.startColor = Color.red;
+            }
+            else if (it.Value.GetInclination() > 3 && it.Value.GetInclination() < 7)
+            {
+                particle.startColor = Color.yellow;
+            }
+            else
+            {
+                particle.startColor = Color.green;
+            }
 
-                particle.startSize = 0.1f;
-                particle.startLifetime =100f;
-                particle.remainingLifetime = 100f;
-                particleCloud.Add(particle);            
-		}
+            particle.startSize = 0.1f;
+            particle.startLifetime = 100f;
+            particle.remainingLifetime = 100f;
+            particleCloud.Add(particle);
+        }
 
-		return particleCloud.ToArray();
-	}
+        return particleCloud.ToArray();
+    }
 
     /// <summary>
     /// Shows the loading dialog
@@ -195,7 +198,7 @@ public class ExternalVisualization : MonoBehaviour {
     public void DataExists()
     {
         loadingPoints = null;
-        this.pointTable = lidarStorage.GetData();        
+        this.pointTable = lidarStorage.GetData();
         SetState(State.FullCloud);
         //Set Camera 
         foreach (var v in pointTable.Values)

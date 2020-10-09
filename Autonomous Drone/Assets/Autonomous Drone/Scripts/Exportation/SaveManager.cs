@@ -10,18 +10,18 @@ public class SaveManager : MonoBehaviour
 
     //public void SaveToCsv(SaveObject[]  datalist, string filname){
     public static void SaveToCsv(Dictionary<float, List<LinkedList<SphericalCoordinate>>> data, String filename)
-    {    
-        if(filename.Equals(null))
+    {
+        if (filename.Equals(null))
         {
             Debug.Log("EMPTY!");
-        } 
+        }
 
 
         try
         {
-          
+
             //string filnamn = Application.persistentDataPath + filename;
-       
+
             ///datatable for rows to be added
             List<string[]> dataTable = new List<string[]>();
             /// object list
@@ -53,7 +53,8 @@ public class SaveManager : MonoBehaviour
             foreach (var coordinatePair in data)
             {
                 float time = coordinatePair.Key;
-                foreach (LinkedList<SphericalCoordinate> keyList in coordinatePair.Value){
+                foreach (LinkedList<SphericalCoordinate> keyList in coordinatePair.Value)
+                {
                     foreach (SphericalCoordinate coordinate in keyList)
                     {
                         Vector3 worldCoordinate = coordinate.GetWorldCoordinate();
@@ -96,11 +97,11 @@ public class SaveManager : MonoBehaviour
 
             outputstream.WriteLine(sb);
             outputstream.Close();
-    
+
         }
         catch (IOException e)
         {
-            Debug.Log("Access violation, printing file.");
+            Debug.Log("Access violation, printing file. with error: " + e.Message);
         }
     }
 }
