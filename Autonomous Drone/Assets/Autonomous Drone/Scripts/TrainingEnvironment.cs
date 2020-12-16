@@ -18,12 +18,6 @@ public class TrainingEnvironment : MonoBehaviour
     public Transform droneTf;
 
     /// <summary>
-    /// Goal tranform
-    /// </summary>
-    [Tooltip("Goal tranform")]
-    public Transform goalTf;
-
-    /// <summary>
     /// object which stores the data collected by lidar sensor
     /// </summary>
     private LidarStorage lidarStorage;
@@ -92,7 +86,7 @@ public class TrainingEnvironment : MonoBehaviour
     /// Move the goal game tranform to a random 
     /// safe location in the terrain
     /// </summary>
-    public void MoveGoalToSafePlace(bool inFrontOfDrone)
+    public void MoveGoalToSafePlace(bool inFrontOfDrone, Transform goalTf)
     {
         if (inFrontOfDrone)
         {

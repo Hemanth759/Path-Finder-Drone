@@ -210,7 +210,7 @@ public class LidarSensor : MonoBehaviour
             // Notify listeners that the lidar sensor have scanned points. 
             //if (OnScanned != null  && pointCloudObject != null && pointCloudObject.activeInHierarchy)
             //{
-            OnScanned(lastLapTime, hits);
+            OnScanned?.Invoke(lastLapTime, hits);
             //}
 
         }
