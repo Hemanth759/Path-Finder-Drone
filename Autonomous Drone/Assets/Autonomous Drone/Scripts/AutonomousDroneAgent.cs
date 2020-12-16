@@ -190,7 +190,7 @@ public class AutonomousDroneAgent : Agent
     {
         // move the goal to random safe place
         bool inFrontOfDrone = infrontProbability < UnityEngine.Random.Range(0f, 1f);
-        environment.MoveGoalToSafePlace(inFrontOfDrone, target);
+        environment.MoveGoalToSafePlace(inFrontOfDrone, target, transform);
 
         // make foundgoal bool to not found
         foundGoal = false;
@@ -209,7 +209,7 @@ public class AutonomousDroneAgent : Agent
         this.droneRb.rotation = Quaternion.identity;
         this.droneRb.velocity = Vector3.zero;
         this.droneRb.angularVelocity = Vector3.zero;
-        environment.MoveDroneToSafePlace();
+        environment.MoveDroneToSafePlace(transform);
     }
 
     /// <summary>
@@ -302,7 +302,7 @@ public class AutonomousDroneAgent : Agent
 
         // moves the goal to a new safe place
         bool moveInFrontOfDrone = 0.6f < UnityEngine.Random.Range(0f, 1f);
-        environment.MoveGoalToSafePlace(moveInFrontOfDrone, target);
+        environment.MoveGoalToSafePlace(moveInFrontOfDrone, target, transform);
         foundGoal = false;
     }
 

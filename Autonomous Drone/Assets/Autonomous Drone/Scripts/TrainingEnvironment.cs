@@ -12,12 +12,6 @@ public class TrainingEnvironment : MonoBehaviour
     public bool saveToFile = false;
 
     /// <summary>
-    /// Drone present in the envirnment
-    /// </summary>
-    [Tooltip("Drone present in the envirnment")]
-    public Transform droneTf;
-
-    /// <summary>
     /// object which stores the data collected by lidar sensor
     /// </summary>
     private LidarStorage lidarStorage;
@@ -77,7 +71,7 @@ public class TrainingEnvironment : MonoBehaviour
     /// Places the drone in a safe place 
     /// where no object is colliding with drone collider
     /// </summary>
-    public void MoveDroneToSafePlace()
+    public void MoveDroneToSafePlace(Transform droneTf)
     {
         FindSafePositionAndMove(droneTf, maxDroneSpawnHeight, spawnOffSet, TerrainCenterOffsetX, TerrainCenterOffsetY);
     }
@@ -86,7 +80,7 @@ public class TrainingEnvironment : MonoBehaviour
     /// Move the goal game tranform to a random 
     /// safe location in the terrain
     /// </summary>
-    public void MoveGoalToSafePlace(bool inFrontOfDrone, Transform goalTf)
+    public void MoveGoalToSafePlace(bool inFrontOfDrone, Transform goalTf, Transform droneTf)
     {
         if (inFrontOfDrone)
         {
