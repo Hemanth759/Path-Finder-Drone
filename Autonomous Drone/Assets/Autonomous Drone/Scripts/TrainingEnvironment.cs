@@ -21,8 +21,8 @@ public class TrainingEnvironment : MonoBehaviour
     private const float maxDroneSpawnHeight = 15.5f;
     private const float maxGoalSpawnHeight = 10f;
     private const float spawnOffSet = 40f;
-    private const float TerrainCenterOffsetX = 50f;
-    private const float TerrainCenterOffsetY = 50f;
+    private float TerrainCenterOffsetX;
+    private float TerrainCenterOffsetY;
     private const float nearSpawnMaxRadius = 1f;
 
     /// <summary>
@@ -33,6 +33,8 @@ public class TrainingEnvironment : MonoBehaviour
         terrain = this.GetComponent<Terrain>();
         lidarStorageGameObject = GameObject.FindGameObjectWithTag("Lidar");
         lidarStorage = lidarStorageGameObject.GetComponent<LidarStorage>();
+        TerrainCenterOffsetX = terrain.terrainData.size.x / 2;
+        TerrainCenterOffsetY = terrain.terrainData.size.z / 2;
     }
 
     /// <summary>
