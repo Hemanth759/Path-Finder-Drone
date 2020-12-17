@@ -107,8 +107,8 @@ public class PointCloud : MonoBehaviour
             }
 
             particle.startSize = particleSize;
-            particle.startLifetime = 100f;
-            particle.remainingLifetime = 200f;
+            particle.startLifetime = 1500f;
+            particle.remainingLifetime = 3000f;
             particleCloud.Add(particle);
 
         }
