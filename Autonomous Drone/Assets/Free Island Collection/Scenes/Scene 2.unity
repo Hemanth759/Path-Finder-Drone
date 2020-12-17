@@ -14,7 +14,7 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
-  m_Fog: 1
+  m_Fog: 0
   m_FogColor: {r: 0.65882355, g: 0.78039217, b: 0.88235295, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.0005
@@ -366,9 +366,6 @@ GameObject:
   - component: {fileID: 2107393478}
   - component: {fileID: 2107393476}
   - component: {fileID: 2107393475}
-  - component: {fileID: 2107393474}
-  - component: {fileID: 2107393481}
-  - component: {fileID: 2107393480}
   - component: {fileID: 2107393477}
   m_Layer: 0
   m_Name: Main Camera
@@ -377,19 +374,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2107393474
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2107393473}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff26db721962cdf4a8edcdfa9a767d2a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  profile: {fileID: 11400000, guid: 798da62f5f5e64f4991acae91a65b1d6, type: 2}
 --- !u!81 &2107393475
 AudioListener:
   m_ObjectHideFlags: 0
@@ -494,43 +478,3 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2107393480
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2107393473}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0fca49aa1ba4d84da5e2776771d1401, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &2107393481
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2107393473}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd973f292fd167f4a96d9146abd29403, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  renderMode: 1
-  geometryType: 3
-  renderWaterDepth: 1
-  baseEffectsQuality: 1
-  superSampling: 1
-  renderVolumes: 1
-  renderFlatMasks: 1
-  forcedVertexCount: 0
-  submersionStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UltimateWater.WaterCamera+WaterCameraEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  mainWater: {fileID: 0}
-  effectsLight: {fileID: 0}
-  ReflectionCamera: {fileID: 0}
