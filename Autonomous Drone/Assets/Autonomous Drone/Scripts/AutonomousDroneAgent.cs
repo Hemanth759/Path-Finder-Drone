@@ -19,10 +19,6 @@ public class AutonomousDroneAgent : Agent
     [SerializeField]
     private Transform target = null;
 
-    [Tooltip("The terrain component of the environment")]
-    [SerializeField]
-    private Terrain terrainEnv = null;
-
     [Tooltip("The probability of the goal spawning nearby the drone (1 => spawns always nearby, 0 => spawns never nearby)")]
     [Range(0f, 1f)]
     [SerializeField]
@@ -324,14 +320,14 @@ public class AutonomousDroneAgent : Agent
     private void FixedUpdate()
     {
         // checks if the drone went below the terrain and punishes and resets the environment
-        if (this.transform.position.y < terrainEnv.SampleHeight(this.transform.position) || this.transform.position.y > 50f)
-        {
-            AddReward(-0.5f);
+        //if (this.transform.position.y < terrainEnv.SampleHeight(this.transform.position) || this.transform.position.y > 50f)
+        //{
+        //    AddReward(-0.5f);
 
-            // stabilize the drone
-            droneRb.velocity = Vector3.zero;
-            droneRb.angularVelocity = Vector3.zero;
-            this.EndEpisode();
-        }
+        //    // stabilize the drone
+        //    droneRb.velocity = Vector3.zero;
+        //    droneRb.angularVelocity = Vector3.zero;
+        //    this.EndEpisode();
+        //}
     }
 }

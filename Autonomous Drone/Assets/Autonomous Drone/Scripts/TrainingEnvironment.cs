@@ -18,12 +18,12 @@ public class TrainingEnvironment : MonoBehaviour
     public GameObject lidarStorageGameObject;
 
     private Terrain terrain;
-    private const float maxDroneSpawnHeight = 15.5f;
-    private const float maxGoalSpawnHeight = 10f;
-    private const float spawnOffSet = 40f;
+    private float maxDroneSpawnHeight = 15.5f;
+    private float maxGoalSpawnHeight = 10f;
+    private float spawnOffSet;
     private float TerrainCenterOffsetX;
     private float TerrainCenterOffsetY;
-    private const float nearSpawnMaxRadius = 1f;
+    private const float nearSpawnMaxRadius = 5f;
 
     /// <summary>
     /// Called when the scene is initialized
@@ -35,6 +35,9 @@ public class TrainingEnvironment : MonoBehaviour
         lidarStorage = lidarStorageGameObject.GetComponent<LidarStorage>();
         TerrainCenterOffsetX = terrain.terrainData.size.x / 2;
         TerrainCenterOffsetY = terrain.terrainData.size.z / 2;
+        maxDroneSpawnHeight = 40f;
+        maxGoalSpawnHeight = 40f;
+        spawnOffSet = Mathf.Min(terrain.terrainData.size.x, terrain.terrainData.size.z) / 2 - 5;
     }
 
     /// <summary>
@@ -112,21 +115,21 @@ public class TrainingEnvironment : MonoBehaviour
         {
             --attemptsRemaining;
             // Pick a random height from the ground 
-            float height = UnityEngine.Random.Range(5f, maxHeight);
+            float height = Random.Range(5f, maxHeight);
 
             // Pick a random radius from the center of the area
-            float radius = UnityEngine.Random.Range(0f, maxRadius);
+            float radius = Random.Range(0f, maxRadius);
 
             // Pick a random rotation rotated around the Y axis
-            Vector3 direction = new Vector3(UnityEngine.Random.Range(-1f, 1f), 0f, UnityEngine.Random.Range(-1f, 1f));
+            Vector3 direction = new Vector3(Random.Range(-1f, 1f), 0f, Random.Range(-1f, 1f));
 
             // Combine height, radius and direction to pick a potential position
             potentialPosition = new Vector3(xOffset, 0f, zOffset) + (direction * radius);
             potentialPosition += Vector3.up * (height + terrain.SampleHeight(potentialPosition));
 
             // Choose and set random starting pitch and yaw
-            float pitch = UnityEngine.Random.Range(-60f, 60f);
-            float yaw = UnityEngine.Random.Range(-180f, 180f);
+            float pitch = Random.Range(-60f, 60f);
+            float yaw = Random.Range(-180f, 180f);
             potentialRotation = Quaternion.Euler(pitch, yaw, 0f);
 
 
