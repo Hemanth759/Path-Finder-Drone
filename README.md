@@ -1,5 +1,11 @@
 # Path-Finder-Drone
 
+## What does this do?
+A Unity3d simulation of a drone model using a ML Agents to map a given terrian and identify possible paths to any two given points. This project makes use of ML-Agents to trian AI models using reinforced learning algorithms.
+
+
+-----
+
 ## Software prerequisites: 
 * Unity Hub (Download it with this [link](https://unity3d.com/get-unity/download))
 * Unity3d 2019.3 or above. (currently using 2019.4.10f)
